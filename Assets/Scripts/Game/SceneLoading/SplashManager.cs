@@ -14,6 +14,7 @@ public class SplashManager : IInitializable
         SceneLoadingManager sceneLoadingManager
     )
     {
+        Debug.Log("SplashManager");
         _sceneLoadingManager = sceneLoadingManager;
     }
     
@@ -25,6 +26,6 @@ public class SplashManager : IInitializable
 		
     private void LoadGame()
     {
-        _sceneLoadingManager.LoadLocationScene(ELocationType.Game);
+        _sceneLoadingManager.LoadLocationScene(ELocationType.Game, 10f);
     }
 }

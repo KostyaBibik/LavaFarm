@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using DG.Tweening;
 using Enums;
+using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,10 +9,15 @@ using UnityEngine.UI;
 
 namespace Game.SceneLoading
 {
-    public class SceneLoadingManager : MonoBehaviour
+    public class SceneLoadingManager
     {
         private AsyncOperation loadingSceneOperation;
         private readonly float? _delayBeforeActive;
+
+        public SceneLoadingManager()
+        {
+            Debug.Log("SceneLoadingManager");
+        }
         
         public void LoadLocationScene(ELocationType location, float? delayBeforeActive = null)
         {
@@ -21,7 +27,14 @@ namespace Game.SceneLoading
 
             if (delayBeforeActive.HasValue)
             {
-                loadingSceneOperation.completed += _ => OnLoadOver();
+                //loadingSceneOperation.completed += _ => OnLoadOver();
+                Observable.FromCoroutine(() => WaitSceneLoading(loadingSceneOperation, delayBeforeActive))
+                    .DoOnCompleted(OnLoadOver)
+                    .Subscribe();
+            }
+            else
+            {
+                OnLoadOver();
             }
         }
 

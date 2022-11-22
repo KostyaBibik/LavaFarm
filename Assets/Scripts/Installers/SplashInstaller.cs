@@ -3,9 +3,9 @@ using Zenject;
 
 public class SplashInstaller : MonoInstaller
 {
-    // ReSharper disable Unity.PerformanceAnalysis
     public override void InstallBindings()
     {
+        Debug.Log("InstallBindings");
         Container.BindInterfacesAndSelfTo<SplashManager>().AsSingle().NonLazy();
     }
 }

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Enums;
 using Game.SceneLoading;
 using UnityEngine;
+using Zenject;
 
-public class SplashManager
+public class SplashManager : IInitializable
 {
     private readonly SceneLoadingManager _sceneLoadingManager;
     

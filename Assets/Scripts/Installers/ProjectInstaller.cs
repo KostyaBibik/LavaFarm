@@ -1,10 +1,13 @@
 using Game.SceneLoading;
 using Zenject;
 
-public class ProjectInstaller : MonoInstaller
+namespace Installers
 {
-    public override void InstallBindings()
+    public class ProjectInstaller : MonoInstaller
     {
-        Container.BindInterfacesAndSelfTo<SceneLoadingManager>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.BindInterfacesAndSelfTo<SceneLoadingManager>().AsSingle();
+        }
     }
 }

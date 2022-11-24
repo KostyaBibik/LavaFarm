@@ -1,34 +1,24 @@
 ﻿using System.Collections;
-using DG.Tweening;
 using Enums;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
 
 namespace Game.SceneLoading
 {
     public class SceneLoadingManager
     {
-        private AsyncOperation loadingSceneOperation;
+        private AsyncOperation _loadingSceneOperation;
         private readonly float? _delayBeforeActive;
-
-        public SceneLoadingManager()
-        {
-            Debug.Log("SceneLoadingManager");
-        }
         
         public void LoadLocationScene(ELocationType location, float? delayBeforeActive = null)
         {
-            Debug.Log("LoadLocationScene");
-            loadingSceneOperation = SceneManager.LoadSceneAsync(location.ToString());
-            loadingSceneOperation.allowSceneActivation = false;
+            _loadingSceneOperation = SceneManager.LoadSceneAsync(location.ToString());
+            _loadingSceneOperation.allowSceneActivation = false;
 
             if (delayBeforeActive.HasValue)
             {
-                //loadingSceneOperation.completed += _ => OnLoadOver();
-                Observable.FromCoroutine(() => WaitSceneLoading(loadingSceneOperation, delayBeforeActive))
+                Observable.FromCoroutine(() => WaitSceneLoading(_loadingSceneOperation, delayBeforeActive))
                     .DoOnCompleted(OnLoadOver)
                     .Subscribe();
             }
@@ -55,7 +45,7 @@ namespace Game.SceneLoading
 
         private void OnLoadOver()
         {
-            loadingSceneOperation.allowSceneActivation = true;
+            _loadingSceneOperation.allowSceneActivation = true;
         }
     }
 }

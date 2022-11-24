@@ -1,11 +1,13 @@
-using UnityEngine;
+using Game.SceneLoading;
 using Zenject;
 
-public class SplashInstaller : MonoInstaller
+namespace Installers
 {
-    public override void InstallBindings()
+    public class SplashInstaller : MonoInstaller
     {
-        Debug.Log("InstallBindings");
-        Container.BindInterfacesAndSelfTo<SplashManager>().AsSingle().NonLazy();
+        public override void InstallBindings()
+        {
+            Container.BindInterfacesAndSelfTo<SplashManager>().AsSingle().NonLazy();
+        }
     }
 }

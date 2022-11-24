@@ -1,31 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using Enums;
-using Game.SceneLoading;
 using UnityEngine;
 using Zenject;
 
-public class SplashManager : IInitializable
+namespace Game.SceneLoading
 {
-    private readonly SceneLoadingManager _sceneLoadingManager;
-    
-    public SplashManager(
-        SceneLoadingManager sceneLoadingManager
-    )
+    public class SplashManager : IInitializable
     {
-        Debug.Log("SplashManager");
-        _sceneLoadingManager = sceneLoadingManager;
-    }
+        private readonly SceneLoadingManager _sceneLoadingManager;
     
-    public void Initialize()
-    {
-        LoadGame();
-    }
+        public SplashManager(SceneLoadingManager sceneLoadingManager)
+        {
+            _sceneLoadingManager = sceneLoadingManager;
+        }
+    
+        public void Initialize()
+        {
+            LoadGame();
+        }
 
-		
-    private void LoadGame()
-    {
-        _sceneLoadingManager.LoadLocationScene(ELocationType.Game, 10f);
+        private void LoadGame()
+        {
+            _sceneLoadingManager.LoadLocationScene(ELocationType.Game, 2f);
+        }
     }
 }

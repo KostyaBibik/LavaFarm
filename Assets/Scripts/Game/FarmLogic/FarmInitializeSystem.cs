@@ -64,12 +64,11 @@ namespace Game.FarmLogic
         
         private IFarmCell CreateCell(Vector3 position, Transform parent)
         {
-            var cell = Instantiate(_cellView, null);
+            var cell = Instantiate(_cellView, parent);
 
             var cellTransform = cell.transform;
             cellTransform.localScale = new Vector3(_widthCell, cellTransform.localScale.y, _depth);
             cellTransform.position = position;
-            cellTransform.SetParent(parent);
             
             return cell;
         }

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0189bf408fdd4b658ee6843df9c8a798, type: 3}
   m_Name: FarmGameParameters
   m_EditorClassIdentifier: 
-  countCellsX: 5
+  countCellsX: 10
   countCellsY: 5
   cellView: {fileID: -4885964539668547173, guid: fa06e4e6179aa694298106eea58e7633,
     type: 3}
-  width: 1

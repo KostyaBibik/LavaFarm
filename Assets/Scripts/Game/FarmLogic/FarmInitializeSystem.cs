@@ -1,4 +1,5 @@
-﻿using Game.FarmLogic.Impl;
+﻿using System.Collections.Generic;
+using Game.FarmLogic.Impl;
 using UnityEngine;
 using Zenject;
 
@@ -8,11 +9,12 @@ namespace Game.FarmLogic
     {
         private Vector2 _countCells;
         private FarmCellView _cellView;
-        private float _widthCell;
-        private float _depth;
+        private Vector3 _sizeCell;
         private Vector3 _sizeFarmBox;
         private Vector3 _minPointBox;
 
+        private readonly List<FarmCellView> _cells = new List<FarmCellView>();
+        
         [Inject]
         private void Construct(
             FarmGameParameters parameters,
@@ -36,10 +38,8 @@ namespace Game.FarmLogic
             
             CalculateParametersCells();
             
-            startPos += new Vector3(.5f * _widthCell, 0f, .5f * _widthCell);
-            var saveStartPos = startPos;
-            
-            Debug.Log($"_sizeFarmBox: {_sizeFarmBox}");
+            startPos += new Vector3(.5f * _sizeCell.x, .5f * _sizeCell.y, .5f * _sizeCell.z);
+            var savedStartPos = startPos;
 
             var parentCells = new GameObject();
             parentCells.gameObject.name = "ParentCells";
@@ -48,26 +48,31 @@ namespace Game.FarmLogic
             {
                 for (int j = 0; j < _countCells.y; j++)
                 {
-                    CreateCell(startPos, parentCells.transform);
-                    startPos += new Vector3(0f, 0f, _depth);
+                    _cells.Add(CreateCell(startPos, parentCells.transform));
+                    startPos += new Vector3(0f, 0f, _sizeCell.z);
                 }
 
-                startPos = new Vector3(startPos.x + _widthCell, saveStartPos.y, saveStartPos.z);
+                startPos = new Vector3(startPos.x + _sizeCell.x, savedStartPos.y, savedStartPos.z);
             }
+            
+            Debug.Log($"_cells: {_cells.Count}");
         }
 
         private void CalculateParametersCells()
-        {
-            _widthCell = _sizeFarmBox.x / _countCells.x;
-            _depth = _sizeFarmBox.z / _countCells.y;
+        {  
+            var widthCell = _sizeFarmBox.x / _countCells.x;
+            var depthCell = _sizeFarmBox.z / _countCells.y;
+            var heightCell = _sizeFarmBox.y;
+            
+            _sizeCell = new Vector3(widthCell, heightCell, depthCell);
         }
         
-        private IFarmCell CreateCell(Vector3 position, Transform parent)
+        private FarmCellView CreateCell(Vector3 position, Transform parent)
         {
             var cell = Instantiate(_cellView, parent);
 
             var cellTransform = cell.transform;
-            cellTransform.localScale = new Vector3(_widthCell, cellTransform.localScale.y, _depth);
+            cellTransform.localScale = new Vector3(_sizeCell.x, cellTransform.localScale.y, _sizeCell.z);
             cellTransform.position = position;
             
             return cell;

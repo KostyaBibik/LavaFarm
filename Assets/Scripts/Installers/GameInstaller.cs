@@ -1,4 +1,5 @@
 using Game.FarmLogic;
+using Game.Interaction;
 using UnityEngine;
 using Zenject;
 
@@ -17,6 +18,12 @@ namespace Installers
                     .NonLazy()
                 ;
             Container.Bind<GameHolder>().FromInstance(gameHolder).AsSingle();
+            
+            Container.
+                Bind(typeof(ITickable), typeof(IInitializable))
+                .To<InputUpdateSystem>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

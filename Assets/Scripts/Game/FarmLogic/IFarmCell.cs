@@ -1,7 +1,9 @@
-﻿namespace Game.FarmLogic
+﻿using Enums;
+
+namespace Game.FarmLogic
 {
     public interface IFarmCell
     {
-        
+       
     }
 }

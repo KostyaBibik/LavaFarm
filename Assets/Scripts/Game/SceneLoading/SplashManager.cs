@@ -1,5 +1,4 @@
 using Enums;
-using UnityEngine;
 using Zenject;
 
 namespace Game.SceneLoading
@@ -15,12 +14,12 @@ namespace Game.SceneLoading
     
         public void Initialize()
         {
-            LoadGame();
+            PreLoadGame();
         }
 
-        private void LoadGame()
+        private void PreLoadGame()
         {
-            _sceneLoadingManager.LoadLocationScene(ELocationType.Game, 2f);
+            _sceneLoadingManager.PreLoadLocationScene(ELocationType.Game);
         }
     }
 }

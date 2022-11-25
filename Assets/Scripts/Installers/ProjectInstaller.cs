@@ -7,7 +7,11 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<SceneLoadingManager>().AsSingle();
+            Container
+                .Bind<SceneLoadingManager>()
+                .AsSingle()
+                .NonLazy()
+                ;
         }
     }
 }

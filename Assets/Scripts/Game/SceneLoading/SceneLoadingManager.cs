@@ -11,11 +11,14 @@ namespace Game.SceneLoading
         private AsyncOperation _loadingSceneOperation;
         private readonly float? _delayBeforeActive;
         
-        public void LoadLocationScene(ELocationType location, float? delayBeforeActive = null)
+        public void PreLoadLocationScene(ELocationType location)
         {
             _loadingSceneOperation = SceneManager.LoadSceneAsync(location.ToString());
             _loadingSceneOperation.allowSceneActivation = false;
+        }
 
+        public void StartLoadedScene(float? delayBeforeActive = null)
+        {
             if (delayBeforeActive.HasValue)
             {
                 Observable.FromCoroutine(() => WaitSceneLoading(_loadingSceneOperation, delayBeforeActive))

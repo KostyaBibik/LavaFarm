@@ -4,7 +4,7 @@ namespace Game.FarmLogic
 {
     public interface IFarmCellState
     {
-        void Tear(FarmCellView cellView, CellBlockParameters blockParameters);
-        void Seed(FarmCellView cellView, CellBlockParameters blockParameters);
+        void Tear(CellBlockParameters blockParameters);
+        void Seed(CellBlockParameters blockParameters);
     }
 }

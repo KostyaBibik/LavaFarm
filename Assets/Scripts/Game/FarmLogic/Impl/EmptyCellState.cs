@@ -5,16 +5,23 @@ namespace Game.FarmLogic.Impl
 {
     public class EmptyCellState : IFarmCellState
     {
-        public void Tear(FarmCellView cellView, CellBlockParameters blockParameters)
+        private readonly FarmCellView _cellView;
+
+        public EmptyCellState(FarmCellView cellView)
+        {
+            _cellView = cellView;
+        }
+        
+        public void Tear(CellBlockParameters blockParameters)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Seed(FarmCellView cellView, CellBlockParameters blockParameters)
+        public void Seed(CellBlockParameters blockParameters)
         {
             Debug.Log($"Seed {blockParameters.SeededBlockPrefab.name}");
-            cellView.State = new SeededCellState(blockParameters.TimeToRipening, cellView);
-            cellView.Renderer.material = blockParameters.GrassMaterial;
+            _cellView.State = new SeededCellState(blockParameters.TimeToRipening, _cellView);
+            _cellView.Renderer.material = blockParameters.GrassMaterial;
         }
     }
 }

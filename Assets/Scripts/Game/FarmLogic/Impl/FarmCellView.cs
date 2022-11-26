@@ -17,17 +17,17 @@ namespace Game.FarmLogic.Impl
         
         public FarmCellView()
         {
-            State = new EmptyCellState();
+            State = new EmptyCellState(this);
         }
         
         public void Tear()
         {
-            State.Tear(this, _blockParameters);
+            State.Tear(_blockParameters);
         }
 
         public void Seed()
         {
-            State.Seed(this, _blockParameters);
+            State.Seed(_blockParameters);
         }
 
         [Inject]

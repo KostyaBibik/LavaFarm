@@ -4,17 +4,20 @@ namespace Game.FarmLogic.Impl
 {
     public class RipedCellState : IFarmCellState
     {
-        public RipedCellState()
+        private readonly FarmCellView _cellView;
+        
+        public RipedCellState(FarmCellView cellView)
         {
+            _cellView = cellView;
             Debug.Log("Has riped");
         }
         
-        public void Tear(FarmCellView cellView, CellBlockParameters blockParameters)
+        public void Tear(CellBlockParameters blockParameters)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Seed(FarmCellView cellView, CellBlockParameters blockParameters)
+        public void Seed(CellBlockParameters blockParameters)
         {
             throw new System.NotImplementedException();
         }

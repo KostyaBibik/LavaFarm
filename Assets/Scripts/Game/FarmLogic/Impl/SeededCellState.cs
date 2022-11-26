@@ -16,12 +16,12 @@ namespace Game.FarmLogic.Impl
                 .Subscribe();
         }
         
-        public void Tear(FarmCellView cellView, CellBlockParameters blockParameters)
+        public void Tear(CellBlockParameters blockParameters)
         {
             Debug.Log("cellView.State RipedCellState");
         }
 
-        public void Seed(FarmCellView cellView, CellBlockParameters blockParameters)
+        public void Seed(CellBlockParameters blockParameters)
         {
             Debug.LogError("actually seed");
         }
@@ -42,7 +42,7 @@ namespace Game.FarmLogic.Impl
         private void OnRipening()
         {
             _cellView.CellGUIView.SwitchGuiEnable(false);
-            _cellView.State = new RipedCellState();
+            _cellView.State = new RipedCellState(_cellView);
         }
 
         public void ShowTimeRipening(float remainingTime)

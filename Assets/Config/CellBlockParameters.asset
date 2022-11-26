@@ -17,6 +17,7 @@ MonoBehaviour:
   seededBlockPrefab: {fileID: 6567338974552541654, guid: e44573ba656a8fe4384b4d71517ccf1f,
     type: 3}
   ripedBlockPrefab: {fileID: 0}
-  guiCellPrefab: {fileID: 0}
+  guiCellPrefab: {fileID: 3384365505061745579, guid: 4ae473c5ee3d9c74696f85918b0b6a6d,
+    type: 3}
   grassMaterial: {fileID: 2100000, guid: 3031608630618ae4db400a2eff77ca1b, type: 2}
   timeToRipening: 5

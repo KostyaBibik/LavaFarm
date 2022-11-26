@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Game.FarmLogic.Impl;
+﻿using Game.FarmLogic.Impl;
 using UnityEngine;
 using Zenject;
 
@@ -8,7 +7,6 @@ namespace Game.FarmLogic
     public class FarmInitializeSystem : MonoBehaviour
     {
         private Vector2 _countCells;
-        private FarmCellView _cellView;
         private Vector3 _sizeCell;
         private Vector3 _sizeFarmBox;
         private Vector3 _minPointBox;
@@ -23,7 +21,6 @@ namespace Game.FarmLogic
             )
         {
             _countCells = new Vector2(parameters.CountCellsX, parameters.CountCellsY);
-            _cellView = parameters.CellView;
             _sizeFarmBox = gameHolder.SizeFarmBox;
             _minPointBox = gameHolder.minPointBox;
             _cellFactory = cellFactory;

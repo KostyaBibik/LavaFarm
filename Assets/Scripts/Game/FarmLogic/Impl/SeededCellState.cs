@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace Game.FarmLogic.Impl
 {
     public class SeededCellState : IFarmCellState, IGUIHandler
     {
-        private FarmCellView _cellView;
+        private readonly FarmCellView _cellView;
         
         public SeededCellState(float timeToRipe, FarmCellView cellView)
         {
@@ -31,15 +30,13 @@ namespace Game.FarmLogic.Impl
         {
             _cellView.CellGUIView.SwitchGuiEnable(true);
             var time = 0f;
-            Debug.Log($"startTime: {Time.time}");
+            
             do
             {
                 time += Time.deltaTime;
                 ShowTimeRipening(timeToRipe - time);
                 yield return null;
             } while (time < timeToRipe);
-            
-            yield return null;
         }
 
         private void OnRipening()

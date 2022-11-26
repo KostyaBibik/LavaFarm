@@ -13,18 +13,20 @@ namespace Game.FarmLogic
         private Vector3 _sizeFarmBox;
         private Vector3 _minPointBox;
 
-        private readonly List<FarmCellView> _cells = new List<FarmCellView>();
+        private IFarmCellFactory _cellFactory;
         
         [Inject]
         private void Construct(
             FarmGameParameters parameters,
-            GameHolder gameHolder
+            GameHolder gameHolder,
+            IFarmCellFactory cellFactory
             )
         {
             _countCells = new Vector2(parameters.CountCellsX, parameters.CountCellsY);
             _cellView = parameters.CellView;
             _sizeFarmBox = gameHolder.SizeFarmBox;
             _minPointBox = gameHolder.minPointBox;
+            _cellFactory = cellFactory;
         }
 
         private void Start()
@@ -48,14 +50,12 @@ namespace Game.FarmLogic
             {
                 for (int j = 0; j < _countCells.y; j++)
                 {
-                    _cells.Add(CreateCell(startPos, parentCells.transform));
+                    CreateCell(startPos, parentCells.transform);
                     startPos += new Vector3(0f, 0f, _sizeCell.z);
                 }
 
                 startPos = new Vector3(startPos.x + _sizeCell.x, savedStartPos.y, savedStartPos.z);
             }
-            
-            Debug.Log($"_cells: {_cells.Count}");
         }
 
         private void CalculateParametersCells()
@@ -67,15 +67,25 @@ namespace Game.FarmLogic
             _sizeCell = new Vector3(widthCell, heightCell, depthCell);
         }
         
-        private FarmCellView CreateCell(Vector3 position, Transform parent)
+        private GameObject CreateCell(Vector3 position, Transform parent)
         {
-            var cell = Instantiate(_cellView, parent);
+            var cellView = _cellFactory.CreateBlock();
 
-            var cellTransform = cell.transform;
+            var cellTransform = cellView.transform;
             cellTransform.localScale = new Vector3(_sizeCell.x, cellTransform.localScale.y, _sizeCell.z);
             cellTransform.position = position;
+            cellTransform.SetParent(parent);
             
-            return cell;
+            var cellUiView = _cellFactory.CreateUiView();
+
+            cellView.CellGUIView = cellUiView;
+            cellUiView.SwitchGuiEnable(false);
+            
+            var guiViewTransform = cellUiView.transform;
+            guiViewTransform.SetParent(cellTransform);
+            guiViewTransform.localPosition = new Vector3(0f, guiViewTransform.localPosition.y, 0f);
+            
+            return cellView.gameObject;
         }
     }
 }

@@ -8,10 +8,12 @@ namespace Installers
     public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInstaller>
     {
         [SerializeField] private FarmGameParameters farmGameParameters;
+        [SerializeField] private CellBlockParameters cellBlockParameters;
         
         public override void InstallBindings()
         {
             Container.BindInstance(farmGameParameters);
+            Container.BindInstance(cellBlockParameters);
         }
     }
 }

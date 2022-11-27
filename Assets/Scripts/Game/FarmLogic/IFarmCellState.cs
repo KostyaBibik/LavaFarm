@@ -1,10 +1,10 @@
-﻿using Game.FarmLogic.Impl;
+﻿using Enums;
 
 namespace Game.FarmLogic
 {
     public interface IFarmCellState
     {
-        void Tear(CellBlockParameters blockParameters);
-        void Seed(CellBlockParameters blockParameters);
+        bool IsHandled { get; set; }
+        void Handle(EPlantType type);
     }
 }

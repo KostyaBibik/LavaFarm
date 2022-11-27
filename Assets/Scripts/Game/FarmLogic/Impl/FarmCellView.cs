@@ -12,28 +12,19 @@ namespace Game.FarmLogic.Impl
         [SerializeField] private MeshRenderer renderer;
         [DoNotSerialize] public CellGUIView CellGUIView { set; get; }
         
-        private CellBlockParameters _blockParameters;
+        public CellPlantParameters PlantParameters { get; private set; }
         public MeshRenderer Renderer => renderer;
-        
-        public FarmCellView()
-        {
-            State = new EmptyCellState(this);
-        }
-        
-        public void Tear()
-        {
-            State.Tear(_blockParameters);
-        }
 
-        public void Seed()
+        public void Handle(EPlantType type = EPlantType.None)
         {
-            State.Seed(_blockParameters);
+            State.Handle(type);
         }
 
         [Inject]
-        public void Construct(CellBlockParameters blockParameters)
+        public void Construct(CellPlantParameters plantParameters)
         {
-            _blockParameters = blockParameters;
+            PlantParameters = plantParameters;
+            State = new EmptyCellState(this).Initialize(plantParameters);
         }
     }
 }

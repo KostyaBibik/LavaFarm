@@ -1,27 +1,30 @@
-﻿using UnityEngine;
-using Zenject;
+﻿using Enums;
 
 namespace Game.FarmLogic.Impl
 {
     public class EmptyCellState : IFarmCellState
     {
         private readonly FarmCellView _cellView;
-
+        private CellPlantParameters _plantParameters;
+        public bool IsHandled { get; set; }
+        
         public EmptyCellState(FarmCellView cellView)
         {
             _cellView = cellView;
-        }
-        
-        public void Tear(CellBlockParameters blockParameters)
-        {
-            throw new System.NotImplementedException();
+            IsHandled = false;
         }
 
-        public void Seed(CellBlockParameters blockParameters)
+        public void Handle(EPlantType type)
         {
-            Debug.Log($"Seed {blockParameters.SeededBlockPrefab.name}");
-            _cellView.State = new SeededCellState(blockParameters.TimeToRipening, _cellView);
-            _cellView.Renderer.material = blockParameters.GrassMaterial;
+            _cellView.State = new SeededCellState(_plantParameters.GetPlant(type).timeToRipening, _cellView, type);
+            _cellView.Renderer.material = _plantParameters.GetPlant(type).grassMaterial;
+        }
+        
+        public IFarmCellState Initialize(CellPlantParameters plantParameters)
+        {
+            _plantParameters = plantParameters;
+
+            return this;
         }
     }
 }

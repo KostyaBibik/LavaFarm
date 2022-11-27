@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Enums;
+using UnityEngine;
 using Zenject;
 
 namespace Game.FarmLogic.Impl
@@ -6,27 +7,27 @@ namespace Game.FarmLogic.Impl
     public class FarmCellFactory : IFarmCellFactory
     {
         private readonly DiContainer _diContainer;
-        private readonly CellBlockParameters _cellBlockParameters;
+        private readonly CellPlantParameters _cellPlantParameters;
         
         public FarmCellFactory(
             DiContainer diContainer,
-            CellBlockParameters blockParameters
+            CellPlantParameters plantParameters
         )
         {
             _diContainer = diContainer;
-            _cellBlockParameters = blockParameters;
+            _cellPlantParameters = plantParameters;
         }
         
-        public FarmCellView CreateBlock()
+        public FarmCellView CreateBlock(EPlantType plantType)
         {
             return _diContainer
-                .InstantiatePrefab(_cellBlockParameters.EmptyBlockPrefab).GetComponent<FarmCellView>();
+                .InstantiatePrefab(_cellPlantParameters.GetPlant(plantType).emptyBlockPrefab).GetComponent<FarmCellView>();
         }
 
-        public CellGUIView CreateUiView()
+        public CellGUIView CreateUiView(EPlantType plantType)
         {
             return _diContainer
-                .InstantiatePrefab(_cellBlockParameters.GuiCellPrefab).GetComponent<CellGUIView>();
+                .InstantiatePrefab(_cellPlantParameters.GetPlant(plantType).guiCellPrefab).GetComponent<CellGUIView>().InitializeBtns();
         }
     }
 }

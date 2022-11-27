@@ -1,4 +1,5 @@
-﻿using Game.FarmLogic.Impl;
+﻿using Enums;
+using Game.FarmLogic.Impl;
 using UnityEngine;
 using Zenject;
 
@@ -64,16 +65,16 @@ namespace Game.FarmLogic
             _sizeCell = new Vector3(widthCell, heightCell, depthCell);
         }
         
-        private GameObject CreateCell(Vector3 position, Transform parent)
+        private void CreateCell(Vector3 position, Transform parent)
         {
-            var cellView = _cellFactory.CreateBlock();
+            var cellView = _cellFactory.CreateBlock(EPlantType.None);
 
             var cellTransform = cellView.transform;
             cellTransform.localScale = new Vector3(_sizeCell.x, cellTransform.localScale.y, _sizeCell.z);
             cellTransform.position = position;
             cellTransform.SetParent(parent);
             
-            var cellUiView = _cellFactory.CreateUiView();
+            var cellUiView = _cellFactory.CreateUiView(EPlantType.None);
 
             cellView.CellGUIView = cellUiView;
             cellUiView.SwitchGuiEnable(false);
@@ -81,8 +82,6 @@ namespace Game.FarmLogic
             var guiViewTransform = cellUiView.transform;
             guiViewTransform.SetParent(cellTransform);
             guiViewTransform.localPosition = new Vector3(0f, guiViewTransform.localPosition.y, 0f);
-            
-            return cellView.gameObject;
         }
     }
 }

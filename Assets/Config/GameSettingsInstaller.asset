@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GameSettingsInstaller
   m_EditorClassIdentifier: 
   farmGameParameters: {fileID: 11400000, guid: bafc7e3ff566c214183c46c1dda660cf, type: 2}
-  cellBlockParameters: {fileID: 11400000, guid: a4de4d139c3b8e74aa8673e4a026447f,
+  cellPlantParameters: {fileID: 11400000, guid: a4de4d139c3b8e74aa8673e4a026447f,
     type: 2}

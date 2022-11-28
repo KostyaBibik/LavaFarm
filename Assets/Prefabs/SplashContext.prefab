@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebbafa8f123d444e82ce6af0b2fa55f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuView: {fileID: 6854352746374375463, guid: 1cb0b7a3c2f778444bf3b9463d83d2a9,
+  mainPanelView: {fileID: 6854352746374375463, guid: 1cb0b7a3c2f778444bf3b9463d83d2a9,
     type: 3}
   settingsPanelView: {fileID: 7067095421821070819, guid: c246ebbde091e784badea2a362bd5357,
     type: 3}

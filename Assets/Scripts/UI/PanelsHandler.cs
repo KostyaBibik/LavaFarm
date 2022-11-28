@@ -9,14 +9,16 @@ namespace UI
     {
         private List<UiPanel> _uiPanels = new List<UiPanel>();
 
-        private readonly MainMenuView _mainMenuView;
+        private readonly MainPanelView _mainPanelView;
         
         public PanelsHandler(
-            MainMenuView mainMenuView,
-            SettingsPanelView settingsPanelView
+            MainPanelView mainPanelView,
+            SettingsPanelView settingsPanelView,
+            PanelEnum panelType
             )
         {
-            _uiPanels.Add(mainMenuView);
+            Debug.Log($"panelType: {panelType}");
+            _uiPanels.Add(mainPanelView);
             _uiPanels.Add(settingsPanelView);
 
             SubscribeToPanels();

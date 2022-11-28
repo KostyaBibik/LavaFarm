@@ -5,7 +5,7 @@ using Zenject;
 
 namespace UI.Impl
 {
-    public class MainMenuView : UiPanel, IInitializable
+    public class MainPanelView : UiPanel, IInitializable
     {
         [SerializeField] private Button playButton;
         [SerializeField] private Button menuButton;

@@ -2,6 +2,8 @@
 {
     public interface IPlayerProgressSystem
     {
-        //void 
+        int CountCarrots { get; }
+
+        void Loq();
     }
 }

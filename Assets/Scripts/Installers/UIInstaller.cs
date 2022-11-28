@@ -5,9 +5,11 @@ using Zenject;
 
 namespace Installers
 {
-    public class UIInstallers : MonoInstaller
+    public class UIInstaller : MonoInstaller
     {
-        [SerializeField] private MainMenuView mainMenuView;
+        [SerializeField] private PanelEnum startPanelType;
+        
+        [SerializeField] private MainPanelView mainPanelView;
         [SerializeField] private SettingsPanelView settingsPanelView;
         [SerializeField] private Canvas mainCanvas;
 
@@ -16,8 +18,8 @@ namespace Installers
             var canvas = Container.InstantiatePrefabForComponent<Canvas>(mainCanvas);
 
             Container
-                .BindInterfacesAndSelfTo<MainMenuView>()
-                .FromComponentInNewPrefab(mainMenuView)
+                .BindInterfacesAndSelfTo<MainPanelView>()
+                .FromComponentInNewPrefab(mainPanelView)
                 .UnderTransform(canvas.transform)
                 .AsSingle();
             
@@ -28,7 +30,7 @@ namespace Installers
                 .AsSingle()
                 .OnInstantiated((context, o) => ((MonoBehaviour) o).gameObject.SetActive(false));;
 
-            Container.Bind<PanelsHandler>().AsSingle().NonLazy();
+            Container.Bind<PanelsHandler>().AsSingle().WithArguments(startPanelType).NonLazy();
         }
     }
 }

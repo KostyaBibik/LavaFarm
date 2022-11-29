@@ -10,14 +10,11 @@ namespace Db.Impl
         public int CountCarrots => _countCarrots;
 
         [Inject] private IPrefsManager _prefsManager;
-
-        private const string CarrotKey = "CountOfCarrots";
         
         private void InitProgressValues()
         {
-            _countCarrots = _prefsManager.GetValue<int>(CarrotKey);
-            Debug.Log(CountCarrots);
-            Debug.Log($"carrots key {_prefsManager.HasKey(CarrotKey)}");
+            var carrotsKey = PlayerPrefKeys.CarrotKey;
+            _countCarrots = _prefsManager.GetValue<int>(carrotsKey);
         }
         
         public void Loq()

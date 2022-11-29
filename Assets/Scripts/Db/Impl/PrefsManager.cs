@@ -4,11 +4,15 @@ namespace Db.Impl
 {
     public class PrefsManager : IPrefsManager
     {
+         public event Action<int, string> HasUpdateValue;
+        
          public void SetValue<T>(string key, T val)
          {
             if (typeof(T) == typeof(int))
             {
-                UnityEngine.PlayerPrefs.SetInt(key, Convert.ToInt32(val));
+                var convertedValue = Convert.ToInt32(val);
+                UnityEngine.PlayerPrefs.SetInt(key, convertedValue);
+                HasUpdateValue?.Invoke(convertedValue, key);
             } 
             else if (typeof(T) == typeof(bool))
             {
@@ -32,7 +36,7 @@ namespace Db.Impl
             {
                 throw new ArgumentNullException("Cannot store value with type + "
                                                 + typeof(T).Name + " to PlayerPrefs");
-            } 
+            }
          }
 
         public T GetValue<T>(string key)

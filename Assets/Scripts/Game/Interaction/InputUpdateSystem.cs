@@ -1,5 +1,6 @@
 ﻿using Enums;
 using Game.FarmLogic.Impl;
+using Game.Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
@@ -12,11 +13,15 @@ namespace Game.Interaction
         
         private Camera _mainCamera;
         private FarmCellView _chosenCellView;
+        private PlayerMoveSystem _playerMoveSystem; 
         
         public void Tick()
         {
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
+
+            if (!_playerMoveSystem)
+                _playerMoveSystem = Object.FindObjectOfType<PlayerMoveSystem>();
             
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -34,13 +39,16 @@ namespace Game.Interaction
 
                         if (cellView.State.IsHandled)
                         {
-                            Debug.Log("IsHandled");
                             cellView.Handle();
                             return;
                         }
                         
                         cellView.CellGUIView.SwitchPlantPanelEnable(true);
                         cellView.CellGUIView.onChooseBtn += ChooseCellViewBtn;
+                        cellView.CellGUIView.onChooseBtn += delegate(EPlantType type)
+                        {
+                            _playerMoveSystem.SetDestination(cellView.transform.position);
+                        };
                         
                         _chosenCellView = cellView;
                     }
@@ -58,8 +66,6 @@ namespace Game.Interaction
             ClearSelectedView();
             _chosenCellView.Handle(type);
             _chosenCellView = null;
-            
-            Debug.Log($"Choose {type.ToString()}");
         }
 
         private void ClearSelectedView()

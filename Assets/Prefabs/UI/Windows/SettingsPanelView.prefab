@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 184507671445979882}
   - component: {fileID: 2159976916442616373}
   - component: {fileID: 5039518642970764740}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,9 @@ GameObject:
   - component: {fileID: 2361485939949141169}
   - component: {fileID: 5592789415033307920}
   - component: {fileID: 7067095421821070819}
-  m_Layer: 5
+  - component: {fileID: 778651745722142911}
+  - component: {fileID: 5142974042497078685}
+  m_Layer: 6
   m_Name: SettingsPanelView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,6 +231,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelType: 1
   onMainMenu: {fileID: 5663804754338510562}
+--- !u!223 &778651745722142911
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6961180531457219766}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &5142974042497078685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6961180531457219766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &7796321767376987605
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +281,7 @@ GameObject:
   - component: {fileID: 6371017590548752491}
   - component: {fileID: 1200350760908169723}
   - component: {fileID: 5663804754338510562}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: OnMainMenuBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

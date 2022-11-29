@@ -91,9 +91,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebbafa8f123d444e82ce6af0b2fa55f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainPanelView: {fileID: 6854352746374375463, guid: 1cb0b7a3c2f778444bf3b9463d83d2a9,
-    type: 3}
-  settingsPanelView: {fileID: 7067095421821070819, guid: c246ebbde091e784badea2a362bd5357,
-    type: 3}
-  mainCanvas: {fileID: 2816387022702270135, guid: 36be0797ab721fc44aa1c30d56f69ec3,
-    type: 3}
+  startPanelType: 0
+  uiPrefabs: {fileID: 11400000, guid: cfbf3c38594840b478d527669b56c2bf, type: 2}

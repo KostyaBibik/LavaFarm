@@ -17,39 +17,51 @@ MonoBehaviour:
   - plantType: 0
     emptyBlockPrefab: {fileID: 3699789055108567545, guid: fa06e4e6179aa694298106eea58e7633,
       type: 3}
-    seededBlockPrefab: {fileID: 0}
-    ripedBlockPrefab: {fileID: 0}
     guiCellPrefab: {fileID: 3384365505061745579, guid: 4ae473c5ee3d9c74696f85918b0b6a6d,
       type: 3}
+    plantView: {fileID: 0}
     grassMaterial: {fileID: 2100000, guid: 3031608630618ae4db400a2eff77ca1b, type: 2}
     ripeMaterial: {fileID: 0}
+    endGrowScale: {x: 0, y: 0, z: 0}
+    onEndGrowHeightPos: 0
     timeToRipening: 0
+    experienceReward: 0
   - plantType: 1
     emptyBlockPrefab: {fileID: 3699789055108567545, guid: fa06e4e6179aa694298106eea58e7633,
       type: 3}
-    seededBlockPrefab: {fileID: 6567338974552541654, guid: e44573ba656a8fe4384b4d71517ccf1f,
-      type: 3}
-    ripedBlockPrefab: {fileID: 0}
     guiCellPrefab: {fileID: 3384365505061745579, guid: 4ae473c5ee3d9c74696f85918b0b6a6d,
+      type: 3}
+    plantView: {fileID: 5780077056603925060, guid: 9c7612e2c31e77b4abac291aad03db52,
       type: 3}
     grassMaterial: {fileID: 2100000, guid: 3031608630618ae4db400a2eff77ca1b, type: 2}
     ripeMaterial: {fileID: 2100000, guid: f1aa4f893c447e944ada732b8d0c97d9, type: 2}
+    endGrowScale: {x: 25, y: 25, z: 25}
+    onEndGrowHeightPos: 0.35
     timeToRipening: 5
+    experienceReward: 5
   - plantType: 2
-    emptyBlockPrefab: {fileID: 0}
-    seededBlockPrefab: {fileID: 0}
-    ripedBlockPrefab: {fileID: 0}
+    emptyBlockPrefab: {fileID: 3699789055108567545, guid: fa06e4e6179aa694298106eea58e7633,
+      type: 3}
     guiCellPrefab: {fileID: 3384365505061745579, guid: 4ae473c5ee3d9c74696f85918b0b6a6d,
+      type: 3}
+    plantView: {fileID: 676097054561950551, guid: 1f917e3dff755f64abf65193d5b6d232,
       type: 3}
     grassMaterial: {fileID: 2100000, guid: 3031608630618ae4db400a2eff77ca1b, type: 2}
     ripeMaterial: {fileID: 2100000, guid: f1aa4f893c447e944ada732b8d0c97d9, type: 2}
+    endGrowScale: {x: 2.5, y: 2.5, z: 2.5}
+    onEndGrowHeightPos: 0
     timeToRipening: 30
+    experienceReward: 30
   - plantType: 3
-    emptyBlockPrefab: {fileID: 0}
-    seededBlockPrefab: {fileID: 0}
-    ripedBlockPrefab: {fileID: 0}
+    emptyBlockPrefab: {fileID: 3699789055108567545, guid: fa06e4e6179aa694298106eea58e7633,
+      type: 3}
     guiCellPrefab: {fileID: 3384365505061745579, guid: 4ae473c5ee3d9c74696f85918b0b6a6d,
+      type: 3}
+    plantView: {fileID: -3340888097325838091, guid: c2c3cc39b7a562248bbee0b0e63524e9,
       type: 3}
     grassMaterial: {fileID: 2100000, guid: 3031608630618ae4db400a2eff77ca1b, type: 2}
     ripeMaterial: {fileID: 2100000, guid: f1aa4f893c447e944ada732b8d0c97d9, type: 2}
+    endGrowScale: {x: 7, y: 7, z: 7}
+    onEndGrowHeightPos: 0
     timeToRipening: 10
+    experienceReward: 10

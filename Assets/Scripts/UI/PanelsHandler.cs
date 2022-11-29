@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using UI.Impl;
-using UnityEngine;
-using Zenject;
 
 namespace UI
 {
@@ -14,14 +12,16 @@ namespace UI
         public PanelsHandler(
             MainPanelView mainPanelView,
             SettingsPanelView settingsPanelView,
+            GamePanelView gamePanelView,
             PanelEnum panelType
             )
         {
-            Debug.Log($"panelType: {panelType}");
             _uiPanels.Add(mainPanelView);
             _uiPanels.Add(settingsPanelView);
+            _uiPanels.Add(gamePanelView);
 
             SubscribeToPanels();
+            EnablePanel(panelType);
         }
 
         private void SubscribeToPanels()
@@ -36,7 +36,6 @@ namespace UI
         {
             foreach (var panel in _uiPanels)
             {
-                Debug.Log($"panel: {panel.panelType}");
                 panel.EnablePanel(panel.panelType == panelType);
             }
         }

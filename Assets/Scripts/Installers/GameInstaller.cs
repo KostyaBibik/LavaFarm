@@ -1,5 +1,7 @@
 using Db;
 using Db.Impl;
+using Game;
+using Game.Environment;
 using Game.FarmLogic;
 using Game.FarmLogic.Impl;
 using Game.Interaction;
@@ -40,16 +42,19 @@ namespace Installers
                 .BindInterfacesAndSelfTo<PrefsManager>()
                 .AsSingle()
                 .NonLazy();
-            
-            /*Container
-                .BindInterfacesAndSelfTo<PlayerProgressSystem>()
-                .AsSingle();*/
 
             Container
                 .Bind(typeof(IPlayerProgressSystem), typeof(IInitializable))
                 .To<PlayerProgressSystem>()
                 .AsSingle()
                 .NonLazy();
+
+            Container
+                .Bind(typeof(IInitializable))
+                .To<EnvironmentInitializeSystem>()
+                .AsSingle()
+                .NonLazy()
+                ;
         }
 
         public void Initialize()

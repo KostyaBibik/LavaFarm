@@ -15,3 +15,4 @@ MonoBehaviour:
   farmGameParameters: {fileID: 11400000, guid: bafc7e3ff566c214183c46c1dda660cf, type: 2}
   cellPlantParameters: {fileID: 11400000, guid: a4de4d139c3b8e74aa8673e4a026447f,
     type: 2}
+  environmentPrefabs: {fileID: 11400000, guid: a2d70d976a88cad41a014559b8240e18, type: 2}

@@ -1,3 +1,4 @@
+using Db;
 using UI;
 using UI.Impl;
 using UnityEngine;
@@ -8,29 +9,37 @@ namespace Installers
     public class UIInstaller : MonoInstaller
     {
         [SerializeField] private PanelEnum startPanelType;
-        
-        [SerializeField] private MainPanelView mainPanelView;
-        [SerializeField] private SettingsPanelView settingsPanelView;
-        [SerializeField] private Canvas mainCanvas;
+
+        [SerializeField] private UiPrefabs uiPrefabs;
 
         public override void InstallBindings()
         {
-            var canvas = Container.InstantiatePrefabForComponent<Canvas>(mainCanvas);
+            var canvas = Container.InstantiatePrefabForComponent<Canvas>(uiPrefabs.mainCanvas);
 
             Container
                 .BindInterfacesAndSelfTo<MainPanelView>()
-                .FromComponentInNewPrefab(mainPanelView)
+                .FromComponentInNewPrefab(uiPrefabs.mainPanelView)
                 .UnderTransform(canvas.transform)
                 .AsSingle();
-            
+
             Container
                 .BindInterfacesAndSelfTo<SettingsPanelView>()
-                .FromComponentInNewPrefab(settingsPanelView)
+                .FromComponentInNewPrefab(uiPrefabs.settingsPanelView)
                 .UnderTransform(canvas.transform)
-                .AsSingle()
-                .OnInstantiated((context, o) => ((MonoBehaviour) o).gameObject.SetActive(false));;
+                .AsSingle();
+                //.OnInstantiated((context, o) => ((MonoBehaviour) o).gameObject.SetActive(false));
 
-            Container.Bind<PanelsHandler>().AsSingle().WithArguments(startPanelType).NonLazy();
+             Container
+                .BindInterfacesAndSelfTo<GamePanelView>()
+                .FromComponentInNewPrefab(uiPrefabs.gamePanelView)
+                .UnderTransform(canvas.transform)
+                .AsSingle();   
+                
+            Container
+                .Bind<PanelsHandler>()
+                .AsSingle()
+                .WithArguments(startPanelType)
+                .NonLazy();
         }
     }
 }

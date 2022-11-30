@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Enums;
-using UniRx;
 using UnityEngine;
 
 namespace Game.Player
@@ -20,8 +18,7 @@ namespace Game.Player
 
         private void Start()
         {
-            //_playerView.NavMeshAgent.SetDestination(destination.transform.position);
-            SetDestination(destination.transform.position);
+            //SetDestination(destination.transform.position);
         }
         
         public void SetDestination(Vector3 targetPos)
@@ -31,21 +28,23 @@ namespace Game.Player
             
             StartCoroutine(nameof(Moving), targetPos);
 
-            OnEndMoving();
+            //OnEndMoving();
         }
 
         private IEnumerator Moving(Vector3 targetPos)
         {
+            //yield return new WaitForSeconds(1f);
+            
             _playerView.playerState = EPlayerState.Moving;
             _playerView.NavMeshAgent.SetDestination(targetPos);
 
             Debug.Log(_playerView.NavMeshAgent.destination);
             Debug.Log($"Still moving distance: {_playerView.NavMeshAgent.remainingDistance}");
-            while (_playerView.NavMeshAgent.remainingDistance > .2f)
+            do
             {
                 Debug.Log($"Still moving distance: {_playerView.NavMeshAgent.remainingDistance}");
                 yield return null;
-            }
+            } while (_playerView.NavMeshAgent.remainingDistance > .2f);
 
             OnEndMoving();
         }

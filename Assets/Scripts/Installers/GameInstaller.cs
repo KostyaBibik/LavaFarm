@@ -5,6 +5,7 @@ using Game.Environment;
 using Game.FarmLogic;
 using Game.FarmLogic.Impl;
 using Game.Interaction;
+using Game.Player;
 using UnityEngine;
 using Zenject;
 
@@ -26,12 +27,13 @@ namespace Installers
                 .Bind<GameHolder>()
                 .FromInstance(gameHolder)
                 .AsSingle();
+
+            InstallEnvironment();
+
+            InstallInput();
             
-            Container
-                .Bind(typeof(ITickable), typeof(IInitializable))
-                .To<InputUpdateSystem>()
-                .AsSingle()
-                .NonLazy();
+            InstallPlayer();
+            
 
             Container
                 .BindInterfacesAndSelfTo<FarmCellFactory>()
@@ -48,13 +50,39 @@ namespace Installers
                 .To<PlayerProgressSystem>()
                 .AsSingle()
                 .NonLazy();
+        }
 
+        private void InstallInput()
+        {
+            Container
+                .Bind(typeof(ITickable), typeof(IInitializable))
+                .To<InputUpdateSystem>()
+                .AsSingle()
+                .NonLazy();
+        }
+        
+        private void InstallEnvironment()
+        {
             Container
                 .Bind(typeof(IInitializable))
                 .To<EnvironmentInitializeSystem>()
                 .AsSingle()
                 .NonLazy()
                 ;
+        }
+        
+        private void InstallPlayer()
+        {
+            Container
+                .Bind<PlayerInitializeSystem>()
+                .AsSingle()
+                .NonLazy();
+            
+            /*Container.Bind<PlayerInitializeSystem>()
+                .AsSingle()
+                .NonLazy()
+                ;*/
+            //Container.Bind<PlayerMoveSystem>().AsSingle().NonLazy();
         }
 
         public void Initialize()

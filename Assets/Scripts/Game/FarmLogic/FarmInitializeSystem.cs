@@ -3,6 +3,7 @@ using Db.Impl;
 using Enums;
 using Game.FarmLogic.Impl;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 
 namespace Game.FarmLogic
@@ -56,6 +57,9 @@ namespace Game.FarmLogic
 
                 startPos = new Vector3(startPos.x + _sizeCell.x, savedStartPos.y, savedStartPos.z);
             }
+
+            var meshsurface = FindObjectOfType<NavMeshSurface>();
+            meshsurface.BuildNavMesh();
         }
 
         private void CalculateParametersCells()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Player;
+using UnityEngine;
 
 namespace Game.Environment
 {
@@ -6,8 +7,11 @@ namespace Game.Environment
         fileName = nameof(EnvironmentPrefabs))]
     public class EnvironmentPrefabs : ScriptableObject
     {
+        [SerializeField] private PlayerView playerView;
+        
         [SerializeField] private GameObject ground;
         
         public GameObject Ground => ground;
+        public PlayerView PlayerView => playerView;
     }
 }

@@ -17,11 +17,13 @@ namespace Game.Interaction
         
         public void Tick()
         {
+            Debug.Log("Tick");
+            
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
-            if (!_playerMoveSystem)
-                _playerMoveSystem = Object.FindObjectOfType<PlayerMoveSystem>();
+            /*if (!_playerMoveSystem)
+                _playerMoveSystem = Object.FindObjectOfType<PlayerMoveSystem>();*/
             
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {

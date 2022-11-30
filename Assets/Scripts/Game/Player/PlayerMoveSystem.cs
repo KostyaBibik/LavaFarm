@@ -1,54 +1,73 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Enums;
+using Game.FarmLogic;
+using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace Game.Player
 {
-    public class PlayerMoveSystem : MonoBehaviour
+    public class PlayerMoveSystem
     {
-        private PlayerView _playerView;
+        [Inject] private PlayerView _playerView;
         private Vector3 _startPos;
-        public Transform destination;
-        
-        private void Awake()
+        private Queue<Vector3> _targetGoals = new Queue<Vector3>();
+
+        public PlayerMoveSystem(/*PlayerView playerView,*/ GameHolder gameHolder)
         {
-            _playerView = GetComponent<PlayerView>();
-            _startPos = transform.position;
+            //_playerView = playerView;
+            _startPos = gameHolder.SpawnPointPlayer;
         }
 
-        private void Start()
+        /*[Inject]
+        public void Construct(PlayerView playerView)
         {
-            //SetDestination(destination.transform.position);
-        }
-        
+            _playerView = playerView;
+        }*/
+
         public void SetDestination(Vector3 targetPos)
         {
-            if(_playerView.playerState != EPlayerState.Idle)
+            if(_playerView.playerState != EPlayerState.Idle && _playerView.playerState != EPlayerState.MovingToStartPos)
+            {
+                _targetGoals.Enqueue(targetPos);
                 return;
+            }
             
-            StartCoroutine(nameof(Moving), targetPos);
-
-            //OnEndMoving();
+            Observable.FromCoroutine(() => Moving(targetPos))
+                .DoOnCompleted(DoS)
+                .Subscribe();
+            //StartCoroutine(nameof(Moving), targetPos);
         }
 
         private IEnumerator Moving(Vector3 targetPos)
         {
-            //yield return new WaitForSeconds(1f);
-            
             _playerView.playerState = EPlayerState.Moving;
             _playerView.NavMeshAgent.SetDestination(targetPos);
-
-            Debug.Log(_playerView.NavMeshAgent.destination);
-            Debug.Log($"Still moving distance: {_playerView.NavMeshAgent.remainingDistance}");
+            
             do
             {
-                Debug.Log($"Still moving distance: {_playerView.NavMeshAgent.remainingDistance}");
-                yield return null;
+                 yield return null;
             } while (_playerView.NavMeshAgent.remainingDistance > .2f);
 
-            OnEndMoving();
+            if (_targetGoals.Count > 0)
+            {
+                Observable.FromCoroutine(() => Moving(_targetGoals.Dequeue()))
+                    .DoOnCompleted(DoS)
+                    .Subscribe();
+                //StartCoroutine(Moving(_targetGoals.Dequeue()));
+            }
+            else
+            {
+                OnEndMoving();
+            }
         }
 
+        private void DoS()
+        {
+            
+        }
+        
         private void OnEndMoving()
         {
             _playerView.playerState = EPlayerState.MovingToStartPos;

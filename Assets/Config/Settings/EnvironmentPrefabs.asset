@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af4a4f4ef94422cadbd5cbede44e184, type: 3}
   m_Name: EnvironmentPrefabs
   m_EditorClassIdentifier: 
+  playerView: {fileID: 4555691247474570435, guid: db8b198c76d63a649a300d4ffb8256e9,
+    type: 3}
   ground: {fileID: 3701652327274662445, guid: 5a1fd42a17af22e41880d4f37d6973f7, type: 3}

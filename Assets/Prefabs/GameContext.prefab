@@ -83,6 +83,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameHolder: {fileID: 0}
+  playerViewPrefab: {fileID: 875666002693721401, guid: f6f7c74a6ed73cb41856befc662593e1,
+    type: 3}
 --- !u!114 &5148003633071295848
 MonoBehaviour:
   m_ObjectHideFlags: 0

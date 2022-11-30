@@ -8,19 +8,23 @@ namespace Game.Player
     public class PlayerView : MonoBehaviour
     {
         [SerializeField] private NavMeshAgent agent;
+        [SerializeField] private Animator animator;
         
         public NavMeshAgent NavMeshAgent => agent;
+        public Animator Animator => animator;
 
-        public EPlayerState playerState;
+        public EPlayerState state;
+
+        public event Action onEndHandle;
         
         public PlayerView()
         {
-            playerState = EPlayerState.Idle;
+            state = EPlayerState.Idle;
         }
-        
-        private void Start()
+
+        public void EndHandle()
         {
-            
+            onEndHandle?.Invoke();
         }
     }
 }

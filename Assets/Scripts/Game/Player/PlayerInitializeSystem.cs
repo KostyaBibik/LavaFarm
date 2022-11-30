@@ -25,8 +25,13 @@ namespace Game.Player
         {
             var player =
                 DiContainerRef.Container.InstantiatePrefabForComponent<PlayerView>(_environmentPrefabs.PlayerView);
-            player.transform.position = _gameHolder.SpawnPointGround;
-            //DiContainerRef.Container.Bind<PlayerMoveSystem>().AsSingle().WithArguments(player).NonLazy();
+            DiContainerRef.Container.Bind<PlayerView>().FromInstance(player).AsSingle().NonLazy();
+            player.transform.position = _gameHolder.SpawnPointPlayer;
+            
+            /*
+            DiContainerRef.Container.Resolve<PlayerView>();
+            DiContainerRef.Container.Resolve<PlayerMoveSystem>();*/
+            
         }
     }
 }

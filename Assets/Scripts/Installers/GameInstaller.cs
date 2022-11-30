@@ -14,6 +14,7 @@ namespace Installers
     public class GameInstaller : MonoInstaller, IInitializable
     {
         [SerializeField] private GameHolder gameHolder;
+        [SerializeField] private PlayerView playerViewPrefab;
         
         public override void InstallBindings()
         {
@@ -29,12 +30,11 @@ namespace Installers
                 .AsSingle();
 
             InstallEnvironment();
-
-            InstallInput();
             
             InstallPlayer();
             
-
+            InstallInput();
+            
             Container
                 .BindInterfacesAndSelfTo<FarmCellFactory>()
                 .AsSingle()
@@ -73,16 +73,28 @@ namespace Installers
         
         private void InstallPlayer()
         {
+            var playerView = Container.InstantiatePrefabForComponent<PlayerView>(
+                    playerViewPrefab,
+                    gameHolder.SpawnPointPlayer,
+                    Quaternion.identity,
+                    null
+                );
+            
             Container
-                .Bind<PlayerInitializeSystem>()
+                .Bind<PlayerView>()
+                .FromInstance(playerView)
                 .AsSingle()
                 .NonLazy();
             
-            /*Container.Bind<PlayerInitializeSystem>()
+            Container
+                .Bind<PlayerHandlingSystem>()
                 .AsSingle()
-                .NonLazy()
-                ;*/
-            //Container.Bind<PlayerMoveSystem>().AsSingle().NonLazy();
+                .NonLazy();
+            
+            Container
+                .Bind<PlayerMoveSystem>()
+                .AsSingle()
+                .NonLazy();
         }
 
         public void Initialize()

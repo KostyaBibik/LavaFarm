@@ -13,6 +13,7 @@ namespace Game.Interaction
         
         private Camera _mainCamera;
         private FarmCellView _chosenCellView;
+        
         private PlayerMoveSystem _playerMoveSystem; 
         
         public void Tick()
@@ -22,9 +23,6 @@ namespace Game.Interaction
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
-            /*if (!_playerMoveSystem)
-                _playerMoveSystem = Object.FindObjectOfType<PlayerMoveSystem>();*/
-            
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -33,15 +31,17 @@ namespace Game.Interaction
                 {
                     if (hit.transform.TryGetComponent(out FarmCellView cellView))
                     {
+                        Debug.Log("HIt on cell");
                         if (_chosenCellView != cellView && _chosenCellView != null)
                         {
+                            Debug.Log("Clear");
                             ClearSelectedView();
                             _chosenCellView = null;
                         }
 
                         if (cellView.State.IsHandled)
                         {
-                            cellView.Handle();
+                            _playerMoveSystem.SetTargetCell(cellView);
                             return;
                         }
                         
@@ -49,7 +49,7 @@ namespace Game.Interaction
                         cellView.CellGUIView.onChooseBtn += ChooseCellViewBtn;
                         cellView.CellGUIView.onChooseBtn += delegate(EPlantType type)
                         {
-                            _playerMoveSystem.SetDestination(cellView.transform.position);
+                            _playerMoveSystem.SetTargetCell(cellView, type);
                         };
                         
                         _chosenCellView = cellView;
@@ -63,11 +63,19 @@ namespace Game.Interaction
             _mainCamera = Camera.main;
         }
 
+        [Inject]
+        public void Construct(PlayerMoveSystem playerMoveSystem)
+        {
+            _playerMoveSystem = playerMoveSystem;
+        }
+
         private void ChooseCellViewBtn(EPlantType type)
         {
-            ClearSelectedView();
-            _chosenCellView.Handle(type);
-            _chosenCellView = null;
+            if(_chosenCellView)
+            {
+                ClearSelectedView();
+                _chosenCellView = null;
+            }
         }
 
         private void ClearSelectedView()

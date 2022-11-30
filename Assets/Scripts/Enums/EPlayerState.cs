@@ -4,7 +4,8 @@
     {
         Idle,
         Moving,
-        Handling,
+        PickUp,
+        Chop,
         MovingToStartPos
     }
 }

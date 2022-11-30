@@ -1,61 +1,77 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Enums;
 using Game.FarmLogic;
+using Game.FarmLogic.Impl;
 using UniRx;
 using UnityEngine;
-using Zenject;
 
 namespace Game.Player
 {
     public class PlayerMoveSystem
     {
-        [Inject] private PlayerView _playerView;
-        private Vector3 _startPos;
-        private Queue<Vector3> _targetGoals = new Queue<Vector3>();
+        private readonly Queue<Tuple<FarmCellView, EPlantType>> _targetCells = new Queue<Tuple<FarmCellView, EPlantType>>();
+        private readonly Vector3 _startPos;
+        private readonly PlayerView _playerView;
+        private readonly PlayerHandlingSystem _handlingSystem;
 
-        public PlayerMoveSystem(/*PlayerView playerView,*/ GameHolder gameHolder)
-        {
-            //_playerView = playerView;
-            _startPos = gameHolder.SpawnPointPlayer;
-        }
-
-        /*[Inject]
-        public void Construct(PlayerView playerView)
+        private static readonly int MoveHash = Animator.StringToHash("Move");
+        
+        public PlayerMoveSystem(PlayerView playerView, GameHolder gameHolder, PlayerHandlingSystem handlingSystem)
         {
             _playerView = playerView;
-        }*/
+            _startPos = gameHolder.SpawnPointPlayer;
+            _handlingSystem = handlingSystem;
+        }
 
-        public void SetDestination(Vector3 targetPos)
+        public void SetTargetCell(FarmCellView targetCell, EPlantType type = EPlantType.None)
         {
-            if(_playerView.playerState != EPlayerState.Idle && _playerView.playerState != EPlayerState.MovingToStartPos)
+            if (type == EPlantType.None)
+                type = targetCell.CurrentType;
+            
+            var cellTuple = new Tuple<FarmCellView, EPlantType>(targetCell, type);
+            _targetCells.Enqueue(cellTuple);
+            
+            if(_playerView.state != EPlayerState.Idle &&
+               _playerView.state != EPlayerState.MovingToStartPos)
             {
-                _targetGoals.Enqueue(targetPos);
                 return;
             }
             
-            Observable.FromCoroutine(() => Moving(targetPos))
-                .DoOnCompleted(DoS)
+            Observable.FromCoroutine(() => Moving(targetCell.transform.position))
                 .Subscribe();
-            //StartCoroutine(nameof(Moving), targetPos);
         }
 
         private IEnumerator Moving(Vector3 targetPos)
         {
-            _playerView.playerState = EPlayerState.Moving;
+            _playerView.state = EPlayerState.Moving;
             _playerView.NavMeshAgent.SetDestination(targetPos);
+            _playerView.Animator.SetTrigger(MoveHash);
             
-            do
-            {
-                 yield return null;
-            } while (_playerView.NavMeshAgent.remainingDistance > .2f);
+            yield return null;
+            
+            yield return new WaitUntil(() => _playerView.NavMeshAgent.remainingDistance < .2f);
 
-            if (_targetGoals.Count > 0)
+            var playerHandleState = EPlayerState.Idle;
+            switch (_targetCells.Peek().Item2)
             {
-                Observable.FromCoroutine(() => Moving(_targetGoals.Dequeue()))
-                    .DoOnCompleted(DoS)
-                    .Subscribe();
-                //StartCoroutine(Moving(_targetGoals.Dequeue()));
+                case EPlantType.Carrot:
+                    playerHandleState = EPlayerState.PickUp;
+                    break;
+                case EPlantType.Tree:
+                    playerHandleState = EPlayerState.Chop;
+                    break;
+            }
+
+            yield return _handlingSystem.Handle(playerHandleState, _targetCells.Peek().Item1.State.IsHandled);
+            
+            HandleSelectedCell();
+            
+            if (_targetCells.Count > 0)
+            {
+                Observable.FromCoroutine(() =>
+                        Moving(_targetCells.Peek().Item1.transform.position)).Subscribe();
             }
             else
             {
@@ -63,15 +79,17 @@ namespace Game.Player
             }
         }
 
-        private void DoS()
+        private void HandleSelectedCell()
         {
-            
+            var handledCell = _targetCells.Dequeue();
+            handledCell.Item1.Handle(handledCell.Item2);
         }
         
         private void OnEndMoving()
         {
-            _playerView.playerState = EPlayerState.MovingToStartPos;
+            _playerView.state = EPlayerState.MovingToStartPos;
             _playerView.NavMeshAgent.SetDestination(_startPos);
+            _playerView.Animator.SetTrigger(MoveHash);
         }
     }
 }

@@ -9,7 +9,8 @@ namespace Game.FarmLogic.Impl
     public class SeededCellState : IFarmCellState, IGUIHandler
     {
         public bool IsHandled { get; set; }
-        
+        public bool IsRiped { get; set; }
+
         private readonly FarmCellView _cellView;
         private readonly CellPlantParameters _plantParameters;
         private readonly EPlantType _plantType;
@@ -18,6 +19,7 @@ namespace Game.FarmLogic.Impl
         public SeededCellState(float timeToRipe, FarmCellView cellView, EPlantType plantType)
         {
             IsHandled = true;
+            IsRiped = false;
             
             _cellView = cellView;
             _plantParameters = cellView.PlantParameters;

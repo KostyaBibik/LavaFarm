@@ -10,6 +10,7 @@ namespace Game.FarmLogic.Impl
         private readonly IPrefsManager _prefsManager;
         private readonly PlantView _plantView;
         public bool IsHandled { get; set; }
+        public bool IsRiped { get; set; }
 
         public RipedCellState(FarmCellView cellView, PlantView plantView)
         {
@@ -18,6 +19,7 @@ namespace Game.FarmLogic.Impl
             _prefsManager = cellView.PrefsManager;
             _plantView = plantView;
             IsHandled = true;
+            IsRiped = true;
         }
 
         public void Handle(EPlantType type)

@@ -1,11 +1,12 @@
 using Db;
 using Db.Impl;
-using Game;
 using Game.Environment;
 using Game.FarmLogic;
 using Game.FarmLogic.Impl;
 using Game.Interaction;
 using Game.Player;
+using Game.Player.Equipment;
+using Game.Player.Equipment.Impl;
 using UnityEngine;
 using Zenject;
 
@@ -15,6 +16,8 @@ namespace Installers
     {
         [SerializeField] private GameHolder gameHolder;
         [SerializeField] private PlayerView playerViewPrefab;
+
+        [Inject] private EnvironmentPrefabs _environmentPrefabs;
         
         public override void InstallBindings()
         {
@@ -86,6 +89,8 @@ namespace Installers
                 .AsSingle()
                 .NonLazy();
             
+            CreatePlayerEquipment(playerView);
+
             Container
                 .Bind<PlayerHandlingSystem>()
                 .AsSingle()
@@ -97,6 +102,22 @@ namespace Installers
                 .NonLazy();
         }
 
+        private void CreatePlayerEquipment(PlayerView playerView)
+        {
+            var scytheView = Container
+                .InstantiatePrefabForComponent<ScytheEquipmentView>(_environmentPrefabs.Scythe);
+            Container.Bind<ScytheEquipmentView>().FromInstance(scytheView);
+            
+            scytheView.transform.SetParent(playerView.ScytheHolder, false);
+            scytheView.gameObject.SetActive(false);
+            
+            var axeView = Container
+                .InstantiatePrefabForComponent<AxeEquipmentView>(_environmentPrefabs.Axe);
+            Container.Bind<AxeEquipmentView>().FromInstance(axeView);
+            
+            axeView.transform.SetParent(playerView.AxeHolder, false);
+            axeView.gameObject.SetActive(false);
+        }
         public void Initialize()
         {
             Container.Resolve<IFarmCellFactory>();

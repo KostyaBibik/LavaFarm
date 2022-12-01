@@ -6,6 +6,7 @@
         Moving,
         PickUp,
         Chop,
+        Mow,
         MovingToStartPos
     }
 }

@@ -18,8 +18,6 @@ namespace Game.Interaction
         
         public void Tick()
         {
-            Debug.Log("Tick");
-            
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
@@ -31,24 +29,27 @@ namespace Game.Interaction
                 {
                     if (hit.transform.TryGetComponent(out FarmCellView cellView))
                     {
-                        Debug.Log("HIt on cell");
                         if (_chosenCellView != cellView && _chosenCellView != null)
                         {
-                            Debug.Log("Clear");
                             ClearSelectedView();
                             _chosenCellView = null;
                         }
 
-                        if (cellView.State.IsHandled)
+                        var cellViewState = cellView.State;
+                        if (cellViewState.IsHandled)
                         {
+                            if(!cellViewState.IsRiped)
+                                return;
+                            
                             _playerMoveSystem.SetTargetCell(cellView);
                             return;
                         }
                         
                         cellView.CellGUIView.SwitchPlantPanelEnable(true);
-                        cellView.CellGUIView.onChooseBtn += ChooseCellViewBtn;
+                        //cellView.CellGUIView.onChooseBtn += ChooseCellViewBtn;
                         cellView.CellGUIView.onChooseBtn += delegate(EPlantType type)
                         {
+                            ChooseCellViewBtn(type);
                             _playerMoveSystem.SetTargetCell(cellView, type);
                         };
                         
@@ -71,11 +72,11 @@ namespace Game.Interaction
 
         private void ChooseCellViewBtn(EPlantType type)
         {
-            if(_chosenCellView)
-            {
-                ClearSelectedView();
-                _chosenCellView = null;
-            }
+            if (!_chosenCellView)
+                return;
+            
+            ClearSelectedView();
+            _chosenCellView = null;
         }
 
         private void ClearSelectedView()

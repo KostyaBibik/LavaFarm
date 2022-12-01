@@ -15,3 +15,5 @@ MonoBehaviour:
   playerView: {fileID: 875666002693721401, guid: f6f7c74a6ed73cb41856befc662593e1,
     type: 3}
   ground: {fileID: 3701652327274662445, guid: 5a1fd42a17af22e41880d4f37d6973f7, type: 3}
+  scythe: {fileID: 9112259436772075051, guid: 082d3014b3787304bad1d1d717c5fb60, type: 3}
+  axe: {fileID: 7599925473969274677, guid: b84ecb9b6a49b3741b7b7f65d9f782e8, type: 3}

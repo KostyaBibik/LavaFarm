@@ -7,11 +7,13 @@ namespace Game.FarmLogic.Impl
         private readonly FarmCellView _cellView;
         private CellPlantParameters _plantParameters;
         public bool IsHandled { get; set; }
-        
+        public bool IsRiped { get; set; }
+
         public EmptyCellState(FarmCellView cellView)
         {
             _cellView = cellView;
             IsHandled = false;
+            IsRiped = false;
         }
 
         public void Handle(EPlantType type)

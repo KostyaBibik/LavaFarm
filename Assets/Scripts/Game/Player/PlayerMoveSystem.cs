@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Db;
 using Enums;
 using Game.FarmLogic;
 using Game.FarmLogic.Impl;
@@ -15,9 +17,8 @@ namespace Game.Player
         private readonly Vector3 _startPos;
         private readonly PlayerView _playerView;
         private readonly PlayerHandlingSystem _handlingSystem;
+        private const float _minDistanceToTarget = 1f;
 
-        private static readonly int MoveHash = Animator.StringToHash("Move");
-        
         public PlayerMoveSystem(PlayerView playerView, GameHolder gameHolder, PlayerHandlingSystem handlingSystem)
         {
             _playerView = playerView;
@@ -27,6 +28,10 @@ namespace Game.Player
 
         public void SetTargetCell(FarmCellView targetCell, EPlantType type = EPlantType.None)
         {
+            if (_targetCells.Any(addedCell
+                => addedCell.Item1 == targetCell))
+                return;
+
             if (type == EPlantType.None)
                 type = targetCell.CurrentType;
             
@@ -45,13 +50,16 @@ namespace Game.Player
 
         private IEnumerator Moving(Vector3 targetPos)
         {
+            _playerView.NavMeshAgent.isStopped = false;
             _playerView.state = EPlayerState.Moving;
             _playerView.NavMeshAgent.SetDestination(targetPos);
-            _playerView.Animator.SetTrigger(MoveHash);
+            _playerView.Animator.SetTrigger(AnimatorHashKeys.MoveHash);
             
             yield return null;
             
-            yield return new WaitUntil(() => _playerView.NavMeshAgent.remainingDistance < .2f);
+            yield return new WaitUntil(()
+                => _playerView.NavMeshAgent.remainingDistance < _minDistanceToTarget);
+            _playerView.NavMeshAgent.isStopped = true;
 
             var playerHandleState = EPlayerState.Idle;
             switch (_targetCells.Peek().Item2)
@@ -62,9 +70,15 @@ namespace Game.Player
                 case EPlantType.Tree:
                     playerHandleState = EPlayerState.Chop;
                     break;
+                case EPlantType.Grass:
+                    playerHandleState = EPlayerState.Mow;
+                    break;
             }
 
-            yield return _handlingSystem.Handle(playerHandleState, _targetCells.Peek().Item1.State.IsHandled);
+            yield return _handlingSystem.Handle(
+                playerHandleState,
+                _targetCells.Peek().Item1.State.IsHandled
+                );
             
             HandleSelectedCell();
             
@@ -88,8 +102,9 @@ namespace Game.Player
         private void OnEndMoving()
         {
             _playerView.state = EPlayerState.MovingToStartPos;
+            _playerView.NavMeshAgent.isStopped = false;
             _playerView.NavMeshAgent.SetDestination(_startPos);
-            _playerView.Animator.SetTrigger(MoveHash);
+            _playerView.Animator.SetTrigger(AnimatorHashKeys.MoveHash);
         }
     }
 }

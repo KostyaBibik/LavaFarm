@@ -10,7 +10,6 @@ namespace UI
         public Canvas mainCanvas;
         [Header("Panels")]
         public MainPanelView mainPanelView;
-        public SettingsPanelView settingsPanelView;
         public GamePanelView gamePanelView;
     }
 }

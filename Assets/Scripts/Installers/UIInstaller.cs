@@ -30,12 +30,6 @@ namespace Installers
                 .AsSingle();
 
             Container
-                .BindInterfacesAndSelfTo<SettingsPanelView>()
-                .FromComponentInNewPrefab(uiPrefabs.settingsPanelView)
-                .UnderTransform(canvas)
-                .AsSingle();
-
-            Container
                 .BindInterfacesAndSelfTo<GamePanelView>()
                 .FromComponentInNewPrefab(uiPrefabs.gamePanelView)
                 .UnderTransform(canvas)

@@ -11,13 +11,11 @@ namespace UI
         
         public PanelsHandler(
             MainPanelView mainPanelView,
-            SettingsPanelView settingsPanelView,
             GamePanelView gamePanelView,
             PanelEnum panelType
             )
         {
             _uiPanels.Add(mainPanelView);
-            _uiPanels.Add(settingsPanelView);
             _uiPanels.Add(gamePanelView);
 
             SubscribeToPanels();

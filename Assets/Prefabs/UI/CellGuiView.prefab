@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.22684225, g: 0.5206215, b: 0.6792453, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -327,7 +327,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1.6000061}
-  m_SizeDelta: {x: 400, y: 400}
+  m_SizeDelta: {x: 500, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4019446052408265371
 Canvas:
@@ -417,7 +417,7 @@ PrefabInstance:
     - target: {fileID: 2562666704880246921, guid: 443b8e98a424048478c7964861b3abf8,
         type: 3}
       propertyPath: m_fontSize
-      value: 38.2
+      value: 50.15
       objectReference: {fileID: 0}
     - target: {fileID: 3952183359737397513, guid: 443b8e98a424048478c7964861b3abf8,
         type: 3}
@@ -683,7 +683,7 @@ PrefabInstance:
     - target: {fileID: 1532722466614635754, guid: 24e4b21e61489224fb0997fcb50d3dcd,
         type: 3}
       propertyPath: m_fontSize
-      value: 52.75
+      value: 69.25
       objectReference: {fileID: 0}
     - target: {fileID: 7142045683195711365, guid: 24e4b21e61489224fb0997fcb50d3dcd,
         type: 3}
@@ -694,6 +694,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538900533346460756, guid: 24e4b21e61489224fb0997fcb50d3dcd,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538900533346460756, guid: 24e4b21e61489224fb0997fcb50d3dcd,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.6415094
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538900533346460756, guid: 24e4b21e61489224fb0997fcb50d3dcd,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.30462745
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24e4b21e61489224fb0997fcb50d3dcd, type: 3}
@@ -835,7 +850,7 @@ PrefabInstance:
     - target: {fileID: 3736808344602921861, guid: 77a66a4f133474d4da2a1e5461bca118,
         type: 3}
       propertyPath: m_fontSize
-      value: 39.85
+      value: 52.3
       objectReference: {fileID: 0}
     - target: {fileID: 5008910050373708010, guid: 77a66a4f133474d4da2a1e5461bca118,
         type: 3}

@@ -8,7 +8,6 @@ namespace UI.Impl
     public class MainPanelView : UiPanel, IInitializable
     {
         [SerializeField] private Button playButton;
-        [SerializeField] private Button menuButton;
         
         [Inject] private readonly SceneLoadingManager _loadingManager;
 
@@ -22,11 +21,6 @@ namespace UI.Impl
             playButton.onClick.AddListener(delegate
             {
                 _loadingManager.StartLoadedScene();
-            });
-            
-            menuButton.onClick.AddListener(delegate
-            {
-                NavigateTo(PanelEnum.Settings);
             });
         }
     }

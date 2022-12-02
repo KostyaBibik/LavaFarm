@@ -32,8 +32,6 @@ namespace Installers
 
             InstallCellFactory();
 
-            InstallPrefsSystem();
-
             InstallProgressSystem();
         }
 
@@ -113,14 +111,6 @@ namespace Installers
                 .BindInterfacesAndSelfTo<FarmCellFactory>()
                 .AsSingle()
                 .Lazy();
-        }
-
-        private void InstallPrefsSystem()
-        {
-            Container
-                .BindInterfacesAndSelfTo<PrefsManager>()
-                .AsSingle()
-                .NonLazy();
         }
         
         private void InstallProgressSystem()

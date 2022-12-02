@@ -1,3 +1,4 @@
+using Db.Impl;
 using Game.SceneLoading;
 using Zenject;
 
@@ -10,8 +11,13 @@ namespace Installers
             Container
                 .Bind<SceneLoadingManager>()
                 .AsSingle()
-                .NonLazy()
-                ;
+                .NonLazy();
+            
+            Container
+                .BindInterfacesAndSelfTo<PrefsManager>()
+                .AsSingle()
+                .NonLazy();
+            
         }
     }
 }

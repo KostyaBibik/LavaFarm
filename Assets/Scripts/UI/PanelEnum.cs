@@ -3,7 +3,6 @@
     public enum PanelEnum
     {
         MainMenu,
-        Settings,
         Game
     }
 }

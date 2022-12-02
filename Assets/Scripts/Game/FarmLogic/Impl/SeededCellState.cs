@@ -8,6 +8,7 @@ namespace Game.FarmLogic.Impl
 {
     public class SeededCellState : IFarmCellState, IGUIHandler
     {
+        public bool IsObstacle { get; set; }
         public bool IsHandled { get; set; }
         public bool IsRiped { get; set; }
 
@@ -18,18 +19,19 @@ namespace Game.FarmLogic.Impl
 
         public SeededCellState(float timeToRipe, FarmCellView cellView, EPlantType plantType)
         {
-            IsHandled = true;
-            IsRiped = false;
-            
             _cellView = cellView;
             _plantParameters = cellView.PlantParameters;
             _plantType = plantType;
-            
+            IsHandled = true;
+            IsRiped = false;
+            IsObstacle = true;
+                        
             _plantedObjView = DiContainerRef.Container.InstantiatePrefabForComponent<PlantView>(
                 _plantParameters.GetPlant(plantType).plantView
             );
             
             _plantedObjView.transform.position = _cellView.posToSpawnPlant.position;
+            _cellView.CellGUIView.SwitchTimeLabelEnable(true);
             
             Observable.FromCoroutine(() => WaitRipening(timeToRipe))
                 .DoOnCompleted(OnRipening)
@@ -70,7 +72,7 @@ namespace Game.FarmLogic.Impl
         private void OnRipening()
         {
             _cellView.CellGUIView.SwitchGuiEnable(false);
-            
+            _cellView.CellGUIView.SwitchTimeLabelEnable(false);
             
             _cellView.Renderer.material = _plantParameters.GetPlant(_plantType).ripeMaterial;
             _cellView.State = new RipedCellState(_cellView, _plantedObjView);

@@ -31,6 +31,11 @@ namespace Game.FarmLogic.Impl
             timeLabel.text = text;
         }
 
+        public void SwitchTimeLabelEnable(bool flag)
+        {
+            timeLabel.gameObject.SetActive(flag);
+        }
+        
         public void SwitchPlantPanelEnable(bool flag)
         {
             if (flag)

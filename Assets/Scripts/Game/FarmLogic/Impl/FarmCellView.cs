@@ -1,7 +1,10 @@
-﻿using Db;
+﻿using System;
+using System.Collections;
+using Db;
 using Enums;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 
 namespace Game.FarmLogic.Impl
@@ -16,10 +19,12 @@ namespace Game.FarmLogic.Impl
         
         public CellPlantParameters PlantParameters { get; private set; }
         public IPrefsManager PrefsManager { get; private set; }
-        public MeshRenderer Renderer => renderer;
-
         public EPlantType CurrentType { get; private set; }
+        public MeshRenderer Renderer => renderer;
         
+        private Action onStateChange;
+        private NavMeshSurface _navMeshSurface;
+
         public void Handle(EPlantType type)
         {
             if(type == EPlantType.None)
@@ -30,19 +35,33 @@ namespace Game.FarmLogic.Impl
             
             CurrentType = type;
             State.Handle(type);
-        }
-
-        public void Handle()
-        {
-            State.Handle(CurrentType);
+            onStateChange?.Invoke();
         }
         
         [Inject]
-        public void Construct(CellPlantParameters plantParameters, IPrefsManager prefsManager)
+        public void Construct(
+            CellPlantParameters plantParameters,
+            IPrefsManager prefsManager,
+            NavMeshSurface navMeshSurface
+        )
         {
             PlantParameters = plantParameters;
             PrefsManager = prefsManager;
+            _navMeshSurface = navMeshSurface;
+            onStateChange += RebuildNavMesh;
             State = new EmptyCellState(this).Initialize(plantParameters);
+        }
+
+        private void RebuildNavMesh()
+        {
+            StartCoroutine(nameof(RebuildWithDelay));
+        }
+
+        private IEnumerator RebuildWithDelay()
+        {
+            yield return null;
+            
+            _navMeshSurface.BuildNavMesh();
         }
     }
 }

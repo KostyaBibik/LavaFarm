@@ -9,6 +9,8 @@ namespace Game.FarmLogic.Impl
         private readonly CellPlantParameters _plantParameters;
         private readonly IPrefsManager _prefsManager;
         private readonly PlantView _plantView;
+        private IFarmCellState _farmCellStateImplementation;
+        public bool IsObstacle { get; set; }
         public bool IsHandled { get; set; }
         public bool IsRiped { get; set; }
 
@@ -20,6 +22,8 @@ namespace Game.FarmLogic.Impl
             _plantView = plantView;
             IsHandled = true;
             IsRiped = true;
+            IsObstacle = true;
+            //cellView.onStateChange.Invoke(IsObstacle);
         }
 
         public void Handle(EPlantType type)

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2172953509860847535}
   - component: {fileID: 2163320992038078027}
   - component: {fileID: 5780077056603925060}
+  - component: {fileID: 3137737918969717849}
   m_Layer: 2
   m_Name: CarrotPrefab
   m_TagString: Untagged
@@ -97,3 +98,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea0bb445b13e4879b3703e4a091c2e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!208 &3137737918969717849
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2185747212853492385}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.016, y: 0.015000001, z: 0.068}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.001, y: 0.015000001, z: 0.028}
+  m_TimeToStationary: 0.5

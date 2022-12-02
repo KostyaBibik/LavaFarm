@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Db;
+using DG.Tweening;
 using Enums;
 using Game.FarmLogic;
 using Game.FarmLogic.Impl;
@@ -17,7 +18,6 @@ namespace Game.Player
         private readonly Vector3 _startPos;
         private readonly PlayerView _playerView;
         private readonly PlayerHandlingSystem _handlingSystem;
-        private const float _minDistanceToTarget = 1f;
 
         public PlayerMoveSystem(PlayerView playerView, GameHolder gameHolder, PlayerHandlingSystem handlingSystem)
         {
@@ -58,8 +58,12 @@ namespace Game.Player
             yield return null;
             
             yield return new WaitUntil(()
-                => _playerView.NavMeshAgent.remainingDistance < _minDistanceToTarget);
+                => _playerView.NavMeshAgent.remainingDistance < _playerView.NavMeshAgent.stoppingDistance);
             _playerView.NavMeshAgent.isStopped = true;
+
+            var direction = targetPos - _playerView.transform.position;
+            var rotate = Quaternion.LookRotation(direction);
+            _playerView.transform.DORotateQuaternion(rotate, .2f);
 
             var playerHandleState = EPlayerState.Idle;
             switch (_targetCells.Peek().Item2)
@@ -101,10 +105,23 @@ namespace Game.Player
         
         private void OnEndMoving()
         {
+            Observable.FromCoroutine(MoveToStartPos).Subscribe();
+        }
+
+        private IEnumerator MoveToStartPos()
+        {
             _playerView.state = EPlayerState.MovingToStartPos;
             _playerView.NavMeshAgent.isStopped = false;
             _playerView.NavMeshAgent.SetDestination(_startPos);
             _playerView.Animator.SetTrigger(AnimatorHashKeys.MoveHash);
+            
+            yield return new WaitUntil(() =>
+                Vector3.Distance(_playerView.transform.position, _startPos) < _playerView.NavMeshAgent.stoppingDistance);
+
+            _playerView.state = EPlayerState.Idle;
+            _playerView.NavMeshAgent.isStopped = true;
+            _playerView.Animator.SetTrigger(AnimatorHashKeys.IdleHash);
+            _playerView.transform.DORotate(Vector3.zero, 1f);
         }
     }
 }

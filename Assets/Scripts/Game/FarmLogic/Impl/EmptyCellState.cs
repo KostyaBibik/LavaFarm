@@ -6,6 +6,7 @@ namespace Game.FarmLogic.Impl
     {
         private readonly FarmCellView _cellView;
         private CellPlantParameters _plantParameters;
+        public bool IsObstacle { get; set; }
         public bool IsHandled { get; set; }
         public bool IsRiped { get; set; }
 
@@ -14,11 +15,14 @@ namespace Game.FarmLogic.Impl
             _cellView = cellView;
             IsHandled = false;
             IsRiped = false;
+            IsObstacle = false;
+            //cellView.onStateChange.Invoke(IsObstacle);
         }
 
         public void Handle(EPlantType type)
         {
             _cellView.State = new SeededCellState(_plantParameters.GetPlant(type).timeToRipening, _cellView, type);
+            _cellView.State.IsObstacle = false;
             _cellView.Renderer.material = _plantParameters.GetPlant(type).grassMaterial;
         }
         

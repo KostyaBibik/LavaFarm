@@ -20,9 +20,9 @@ namespace Installers
         
         public override void InstallBindings()
         {
-            InstallEnvironment();
-            
             InstallFarm();
+            
+            InstallEnvironment();
 
             InstallGameHolder();
 

@@ -5,9 +5,9 @@ using Game.FarmLogic;
 using Game.FarmLogic.Impl;
 using Game.Interaction;
 using Game.Player;
-using Game.Player.Equipment;
 using Game.Player.Equipment.Impl;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 
 namespace Installers
@@ -15,46 +15,45 @@ namespace Installers
     public class GameInstaller : MonoInstaller, IInitializable
     {
         [SerializeField] private GameHolder gameHolder;
-        [SerializeField] private PlayerView playerViewPrefab;
 
         [Inject] private EnvironmentPrefabs _environmentPrefabs;
         
         public override void InstallBindings()
         {
-            Container
-                    .Bind<FarmInitializeSystem>()
-                    .FromNewComponentOnNewGameObject()
-                    .AsSingle()
-                    .NonLazy();
+            InstallEnvironment();
             
+            InstallFarm();
+
+            InstallGameHolder();
+
+            InstallPlayer();
+            
+            InstallInput();
+
+            InstallCellFactory();
+
+            InstallPrefsSystem();
+
+            InstallProgressSystem();
+        }
+
+        private void InstallGameHolder()
+        {
             Container
                 .Bind<GameHolder>()
                 .FromInstance(gameHolder)
                 .AsSingle();
-
-            InstallEnvironment();
-            
-            InstallPlayer();
-            
-            InstallInput();
-            
+        }
+        
+        private void InstallFarm()
+        {
             Container
-                .BindInterfacesAndSelfTo<FarmCellFactory>()
-                .AsSingle()
-                .Lazy();
-
-            Container
-                .BindInterfacesAndSelfTo<PrefsManager>()
-                .AsSingle()
-                .NonLazy();
-
-            Container
-                .Bind(typeof(IPlayerProgressSystem), typeof(IInitializable))
-                .To<PlayerProgressSystem>()
+                .Bind<FarmInitializeSystem>()
+                .FromNewComponentOnNewGameObject()
                 .AsSingle()
                 .NonLazy();
         }
-
+        
         private void InstallInput()
         {
             Container
@@ -66,18 +65,24 @@ namespace Installers
         
         private void InstallEnvironment()
         {
+            var meshSurfaceView = Container.InstantiatePrefabForComponent<NavMeshSurface>(
+                _environmentPrefabs.Ground,
+                gameHolder.SpawnPointGround,
+                Quaternion.identity,
+                null
+            );
+            
             Container
-                .Bind(typeof(IInitializable))
-                .To<EnvironmentInitializeSystem>()
+                .Bind<NavMeshSurface>()
+                .FromInstance(meshSurfaceView)
                 .AsSingle()
-                .NonLazy()
-                ;
+                .NonLazy();
         }
         
         private void InstallPlayer()
         {
             var playerView = Container.InstantiatePrefabForComponent<PlayerView>(
-                    playerViewPrefab,
+                    _environmentPrefabs.PlayerView,
                     gameHolder.SpawnPointPlayer,
                     Quaternion.identity,
                     null
@@ -102,6 +107,31 @@ namespace Installers
                 .NonLazy();
         }
 
+        private void InstallCellFactory()
+        {
+            Container
+                .BindInterfacesAndSelfTo<FarmCellFactory>()
+                .AsSingle()
+                .Lazy();
+        }
+
+        private void InstallPrefsSystem()
+        {
+            Container
+                .BindInterfacesAndSelfTo<PrefsManager>()
+                .AsSingle()
+                .NonLazy();
+        }
+        
+        private void InstallProgressSystem()
+        {
+            Container
+                .Bind(typeof(IPlayerProgressSystem), typeof(IInitializable))
+                .To<PlayerProgressSystem>()
+                .AsSingle()
+                .NonLazy();
+        }
+
         private void CreatePlayerEquipment(PlayerView playerView)
         {
             var scytheView = Container
@@ -118,6 +148,7 @@ namespace Installers
             axeView.transform.SetParent(playerView.AxeHolder, false);
             axeView.gameObject.SetActive(false);
         }
+        
         public void Initialize()
         {
             Container.Resolve<IFarmCellFactory>();

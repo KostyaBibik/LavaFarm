@@ -1,7 +1,4 @@
-﻿using Db;
-using Db.Impl;
-using Enums;
-using Game.FarmLogic.Impl;
+﻿using Enums;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -16,18 +13,21 @@ namespace Game.FarmLogic
         private Vector3 _minPointBox;
 
         private IFarmCellFactory _cellFactory;
+        private NavMeshSurface _navMeshSurface;
         
         [Inject]
         private void Construct(
             FarmGameParameters parameters,
             GameHolder gameHolder,
-            IFarmCellFactory cellFactory
+            IFarmCellFactory cellFactory,
+            NavMeshSurface meshSurface
             )
         {
             _countCells = new Vector2(parameters.CountCellsX, parameters.CountCellsY);
             _sizeFarmBox = gameHolder.SizeFarmBox;
             _minPointBox = gameHolder.minPointBox;
             _cellFactory = cellFactory;
+            _navMeshSurface = meshSurface;
         }
 
         private void Start()
@@ -58,8 +58,7 @@ namespace Game.FarmLogic
                 startPos = new Vector3(startPos.x + _sizeCell.x, savedStartPos.y, savedStartPos.z);
             }
 
-            var meshsurface = FindObjectOfType<NavMeshSurface>();
-            meshsurface.BuildNavMesh();
+            _navMeshSurface.BuildNavMesh();
         }
 
         private void CalculateParametersCells()

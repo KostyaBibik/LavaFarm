@@ -45,15 +45,16 @@ namespace UI.Impl
             experienceCounter.text = $"{ExperiencePrefixLabel} {value.ToString()}";
         }
 
-        private void OnUpdateCounter(int newValue, string key)
+        private void OnUpdateCounter(int newValue, string prefKey)
         {
-            if (key == PlayerPrefKeys.CarrotKey)
+            switch (prefKey)
             {
-                SetCarrotsCount(_prefsManager.GetValue<int>(key));
-            }
-            else if (key == PlayerPrefKeys.Experience)
-            {
-                SetExperienceCount(_prefsManager.GetValue<int>(key));
+                case PlayerPrefKeys.CarrotKey:
+                    SetCarrotsCount(_prefsManager.GetValue<int>(prefKey));
+                    break;
+                case PlayerPrefKeys.Experience:
+                    SetExperienceCount(_prefsManager.GetValue<int>(prefKey));
+                    break;
             }
         }
     }

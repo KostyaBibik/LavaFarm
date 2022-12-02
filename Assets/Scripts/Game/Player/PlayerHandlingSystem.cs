@@ -30,7 +30,7 @@ namespace Game.Player
         {
             _playerView.state = playerState;
             
-            int operationHash;
+            var operationHash = AnimatorHashKeys.PickUpHash;
             var playerEquipment = EPlayerEquipment.None;
             
             if(plantIsHandled)
@@ -52,10 +52,6 @@ namespace Game.Player
                         yield break;
                 }
             }
-            else
-            {
-                operationHash = AnimatorHashKeys.PickUpHash;
-            }
 
             StartHandle(operationHash, playerEquipment);
 
@@ -65,12 +61,13 @@ namespace Game.Player
         private void StartHandle(int operationHash, EPlayerEquipment playerEquipment)
         {
             _isHandling = true;
-            _playerView.onEndHandle += FinishHandle;
+            _playerView.Animator.SetBool(operationHash, true);
+            
             _playerView.onEndHandle += delegate
             {
+                FinishHandle();
                 _playerView.Animator.SetBool(operationHash, false);
             };
-            _playerView.Animator.SetBool(operationHash, true);
 
             switch (playerEquipment)
             {

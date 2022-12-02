@@ -5,7 +5,7 @@ namespace UI
 {
     public class PanelsHandler
     {
-        private List<UiPanel> _uiPanels = new List<UiPanel>();
+        private readonly List<UiPanel> _uiPanels = new List<UiPanel>();
 
         private readonly MainPanelView _mainPanelView;
         

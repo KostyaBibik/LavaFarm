@@ -16,25 +16,34 @@ namespace Installers
         {
             var canvas = Container.InstantiatePrefabForComponent<Canvas>(uiPrefabs.mainCanvas);
 
+            InstallPanels(canvas.transform);
+
+            InstallPanelHandler();
+        }
+
+        private void InstallPanels(Transform canvas)
+        {
             Container
                 .BindInterfacesAndSelfTo<MainPanelView>()
                 .FromComponentInNewPrefab(uiPrefabs.mainPanelView)
-                .UnderTransform(canvas.transform)
+                .UnderTransform(canvas)
                 .AsSingle();
 
             Container
                 .BindInterfacesAndSelfTo<SettingsPanelView>()
                 .FromComponentInNewPrefab(uiPrefabs.settingsPanelView)
-                .UnderTransform(canvas.transform)
+                .UnderTransform(canvas)
                 .AsSingle();
-                //.OnInstantiated((context, o) => ((MonoBehaviour) o).gameObject.SetActive(false));
 
-             Container
+            Container
                 .BindInterfacesAndSelfTo<GamePanelView>()
                 .FromComponentInNewPrefab(uiPrefabs.gamePanelView)
-                .UnderTransform(canvas.transform)
-                .AsSingle();   
-                
+                .UnderTransform(canvas)
+                .AsSingle(); 
+        }
+
+        private void InstallPanelHandler()
+        {
             Container
                 .Bind<PanelsHandler>()
                 .AsSingle()

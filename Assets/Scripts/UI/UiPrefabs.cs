@@ -1,7 +1,7 @@
 ﻿using UI.Impl;
 using UnityEngine;
 
-namespace Db
+namespace UI
 {
     [CreateAssetMenu(menuName = "Prefabs/" + nameof(UiPrefabs),
         fileName = nameof(UiPrefabs))]

@@ -13,6 +13,7 @@ namespace Game.FarmLogic.Impl
     {
         public IFarmCellState State { get; set; }
         public Transform posToSpawnPlant;
+        public Transform posToSpawnUiView;
         
         [SerializeField] private MeshRenderer renderer;
         [DoNotSerialize] public CellGUIView CellGUIView { set; get; }

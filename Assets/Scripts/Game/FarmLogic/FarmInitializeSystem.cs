@@ -85,8 +85,9 @@ namespace Game.FarmLogic
             cellUiView.SwitchGuiEnable(false);
             
             var guiViewTransform = cellUiView.transform;
+            guiViewTransform.position = cellView.posToSpawnUiView.position;
             guiViewTransform.SetParent(cellTransform);
-            guiViewTransform.localPosition = new Vector3(0f, guiViewTransform.localPosition.y, 0f);
+            //guiViewTransform.localPosition = new Vector3(0f, guiViewTransform.localPosition.y, 0f);
         }
     }
 }

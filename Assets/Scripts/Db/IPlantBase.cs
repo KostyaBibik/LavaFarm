@@ -6,7 +6,6 @@ namespace Db
 {
     public interface IPlantBase
     {
-        EPlantType DefaultPlant { get; }
         List<PlantVo> AllPlants { get; }
         PlantVo GetPlant(EPlantType plantType);
     }

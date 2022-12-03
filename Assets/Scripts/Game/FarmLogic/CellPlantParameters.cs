@@ -11,12 +11,28 @@ namespace Game.FarmLogic
         fileName = nameof(CellPlantParameters))]
     public class CellPlantParameters : ScriptableObject, IPlantBase
     {
-        [SerializeField] private EPlantType defaultPlant;
-        [SerializeField] private List<PlantVo> plants;
+        [SerializeField] private GameObject emptyBlockPrefab;
+        [SerializeField] private GameObject cellGuiPrefab;
 
-        public EPlantType DefaultPlant => defaultPlant;
-        public List<PlantVo> AllPlants => plants;
+        [Header("Materials")]
+        [SerializeField] private Material selectedBlock;
+        [SerializeField] private Material defaultBlock;
+        [SerializeField] private Material plantedBlock;
+        [SerializeField] private Material ripedBlock;
         
+        
+        
+        [Space, SerializeField] private List<PlantVo> plants;
+
+        public Material SelectedBlock => selectedBlock;
+        public Material DefaultBlock => defaultBlock;
+        public Material PlantedBlock => plantedBlock;
+        public Material RipedBlock => ripedBlock;
+        public GameObject EmptyBlockPrefab => emptyBlockPrefab;
+        public GameObject CellGuiPrefab => cellGuiPrefab;
+        
+        public List<PlantVo> AllPlants => plants;
+
         public PlantVo GetPlant(EPlantType plantType)
         {
             foreach (var plantVo in plants)

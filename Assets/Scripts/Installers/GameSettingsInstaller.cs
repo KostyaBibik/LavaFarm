@@ -1,4 +1,3 @@
-using Game;
 using Game.Environment;
 using Game.FarmLogic;
 using UnityEngine;

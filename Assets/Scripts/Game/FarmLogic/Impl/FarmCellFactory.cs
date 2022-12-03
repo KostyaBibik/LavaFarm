@@ -1,6 +1,4 @@
-﻿using Enums;
-using UnityEngine;
-using Zenject;
+﻿using Zenject;
 
 namespace Game.FarmLogic.Impl
 {
@@ -18,16 +16,16 @@ namespace Game.FarmLogic.Impl
             _cellPlantParameters = plantParameters;
         }
         
-        public FarmCellView CreateBlock(EPlantType plantType)
+        public FarmCellView CreateBlock()
         {
             return _diContainer
-                .InstantiatePrefab(_cellPlantParameters.GetPlant(plantType).emptyBlockPrefab).GetComponent<FarmCellView>();
+                .InstantiatePrefab(_cellPlantParameters.EmptyBlockPrefab).GetComponent<FarmCellView>();
         }
 
-        public CellGUIView CreateUiView(EPlantType plantType)
+        public CellGUIView CreateUiView()
         {
             return _diContainer
-                .InstantiatePrefab(_cellPlantParameters.GetPlant(plantType).guiCellPrefab).GetComponent<CellGUIView>().InitializeBtns();
+                .InstantiatePrefab(_cellPlantParameters.CellGuiPrefab).GetComponent<CellGUIView>().InitializeBtns();
         }
     }
 }

@@ -1,13 +1,11 @@
-﻿using Enums;
-using Game.FarmLogic.Impl;
-using UnityEngine;
+﻿using Game.FarmLogic.Impl;
 
 namespace Game.FarmLogic
 {
     public interface IFarmCellFactory
     {
-        FarmCellView CreateBlock(EPlantType plantType);
+        FarmCellView CreateBlock();
 
-        CellGUIView CreateUiView(EPlantType plantType);
+        CellGUIView CreateUiView();
     }
 }

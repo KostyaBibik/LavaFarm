@@ -28,12 +28,11 @@ namespace Game.FarmLogic.Impl
         public void Handle(EPlantType type)
         {
             var plant = _plantParameters.GetPlant(type);
-            
             var expKey = PlayerPrefKeys.Experience;
             var newExpValue = _prefsManager.GetValue<int>(expKey) + plant.experienceReward;
             _prefsManager.SetValue(expKey, newExpValue);
             
-            _cellView.Renderer.material = plant.grassMaterial;
+            _cellView.Renderer.material = _plantParameters.DefaultBlock;
             
             if(type == EPlantType.Carrot)
             {

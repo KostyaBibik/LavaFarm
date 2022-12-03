@@ -10,12 +10,7 @@ namespace Db.Impl
     {
         public EPlantType plantType;
         
-        public GameObject emptyBlockPrefab;
-        public GameObject guiCellPrefab;
         public PlantView plantView;
-        
-        public Material grassMaterial;
-        public Material ripeMaterial;
         
         public Vector3 endGrowScale;
         public float onEndGrowHeightPos;

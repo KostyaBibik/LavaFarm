@@ -1,4 +1,5 @@
 ﻿using Enums;
+using Game.FarmLogic;
 using Game.FarmLogic.Impl;
 using Game.Player;
 using UnityEngine;
@@ -14,7 +15,8 @@ namespace Game.Interaction
         private Camera _mainCamera;
         private FarmCellView _chosenCellView;
         
-        private PlayerMoveSystem _playerMoveSystem; 
+        private PlayerMoveSystem _playerMoveSystem;
+        private CellPlantParameters _cellPlantParameters;
         
         public void Tick()
         {
@@ -46,7 +48,8 @@ namespace Game.Interaction
                         }
                         
                         cellView.CellGUIView.SwitchPlantPanelEnable(true);
-                        //cellView.CellGUIView.onChooseBtn += ChooseCellViewBtn;
+                        cellView.Renderer.material = _cellPlantParameters.SelectedBlock;
+
                         cellView.CellGUIView.onChooseBtn += delegate(EPlantType type)
                         {
                             ChooseCellViewBtn(type);
@@ -65,9 +68,10 @@ namespace Game.Interaction
         }
 
         [Inject]
-        public void Construct(PlayerMoveSystem playerMoveSystem)
+        public void Construct(PlayerMoveSystem playerMoveSystem, CellPlantParameters cellPlantParameters)
         {
             _playerMoveSystem = playerMoveSystem;
+            _cellPlantParameters = cellPlantParameters;
         }
 
         private void ChooseCellViewBtn(EPlantType type)
@@ -81,6 +85,7 @@ namespace Game.Interaction
 
         private void ClearSelectedView()
         {
+            _chosenCellView.Renderer.material = _cellPlantParameters.DefaultBlock;
             _chosenCellView.CellGUIView.onChooseBtn -= ChooseCellViewBtn;
             _chosenCellView.CellGUIView.SwitchGuiEnable(false);
         }

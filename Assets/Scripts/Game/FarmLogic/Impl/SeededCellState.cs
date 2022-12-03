@@ -74,7 +74,7 @@ namespace Game.FarmLogic.Impl
             _cellView.CellGUIView.SwitchGuiEnable(false);
             _cellView.CellGUIView.SwitchTimeLabelEnable(false);
             
-            _cellView.Renderer.material = _plantParameters.GetPlant(_plantType).ripeMaterial;
+            _cellView.Renderer.material = _plantParameters.RipedBlock;
             _cellView.State = new RipedCellState(_cellView, _plantedObjView);
             _plantedObjView = null;
         }

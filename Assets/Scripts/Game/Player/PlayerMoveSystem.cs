@@ -18,6 +18,7 @@ namespace Game.Player
         private readonly Vector3 _startPos;
         private readonly PlayerView _playerView;
         private readonly PlayerHandlingSystem _handlingSystem;
+        private bool _isBusy;
 
         public PlayerMoveSystem(PlayerView playerView, GameHolder gameHolder, PlayerHandlingSystem handlingSystem)
         {
@@ -32,6 +33,7 @@ namespace Game.Player
                 => addedCell.Item1 == targetCell))
                 return;
 
+            _isBusy = true;
             if (type == EPlantType.None)
                 type = targetCell.CurrentType;
             
@@ -110,16 +112,26 @@ namespace Game.Player
 
         private IEnumerator MoveToStartPos()
         {
+            _isBusy = false;
             _playerView.state = EPlayerState.MovingToStartPos;
             _playerView.NavMeshAgent.isStopped = false;
             _playerView.NavMeshAgent.SetDestination(_startPos);
             _playerView.Animator.SetTrigger(AnimatorHashKeys.MoveHash);
             
             yield return new WaitUntil(() =>
-                Vector3.Distance(_playerView.transform.position, _startPos) < _playerView.NavMeshAgent.stoppingDistance);
+                Vector3.Distance(_playerView.transform.position, _startPos) < _playerView.NavMeshAgent.stoppingDistance
+                || _isBusy
+                );
 
-            _playerView.state = EPlayerState.Idle;
+            if(_isBusy)
+            {
+                _playerView.NavMeshAgent.isStopped = false;
+                _playerView.NavMeshAgent.ResetPath();
+                yield break;
+            }
+            
             _playerView.NavMeshAgent.isStopped = true;
+            _playerView.state = EPlayerState.Idle;
             _playerView.Animator.SetTrigger(AnimatorHashKeys.IdleHash);
             _playerView.transform.DORotate(Vector3.zero, 1f);
         }

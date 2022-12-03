@@ -23,7 +23,6 @@ namespace Game.FarmLogic.Impl
             IsHandled = true;
             IsRiped = true;
             IsObstacle = true;
-            //cellView.onStateChange.Invoke(IsObstacle);
         }
 
         public void Handle(EPlantType type)
